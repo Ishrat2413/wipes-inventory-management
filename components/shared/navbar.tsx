@@ -24,7 +24,7 @@ export default function Navbar() {
           isHome ? "text-white" : "text-(--text-primary)"
         }`}>
         <button
-          className={`justify-self-start text-sm font-medium uppercase tracking-[0.3em] transition-colors ${
+          className={`justify-self-start text-3xl font-medium transition-colors ${
             isHome
               ? "text-white/90 hover:text-white"
               : "text-(--text-primary)/80 hover:text-(--text-primary)"

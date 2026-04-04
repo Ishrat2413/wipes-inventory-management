@@ -14,7 +14,7 @@ export default function ShopHeader({
 }: ShopHeaderProps) {
   return (
     <section className='bg-white'>
-      <div className='mx-5 md:mx-11.5 min-h-44 pt-18 pb-5 md:min-h-52 md:pt-20 md:pb-7'>
+      <div className='mx-5 md:mx-12.5 pt-18 md:pt-50 pb-5 md:pb-16'>
         <div className='h-full flex flex-col justify-end gap-5 md:gap-6'>
           <div className='flex flex-col items-start justify-between gap-6 md:flex-row md:items-end'>
             <h1 className='font-heading text-3xl md:text-5xl leading-[1.08] font-bold text-(--text-primary)'>
