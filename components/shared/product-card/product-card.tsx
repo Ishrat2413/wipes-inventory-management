@@ -70,8 +70,12 @@ export default function ProductCard({
           />
         </div>
 
-        <div className='absolute inset-x-5 bottom-5 hidden flex-col gap-3 group-hover:flex'>
-          <div className='flex h-14 items-center justify-between rounded-full border border-white px-5 text-white'>
+        <div
+          className='absolute inset-x-5 bottom-5 hidden flex-col gap-3 group-hover:flex'
+          onClick={(event) => event.stopPropagation()}>
+          <div
+            className='flex h-14 items-center justify-between rounded-full border border-white px-5 text-white'
+            onClick={(event) => event.stopPropagation()}>
             <button
               type='button'
               aria-label='Decrease quantity'
