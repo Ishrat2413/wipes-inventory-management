@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { WipesProduct } from "@/components/home/wipes-data";
+import type { WipesProduct } from "@/components/home/home-page/wipes-data";
 
 type ProductCardProps = Omit<WipesProduct, "id">;
 
