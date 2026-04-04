@@ -41,9 +41,9 @@ export default function ProductCard({
 
   return (
     <div className='group flex w-full flex-col overflow-hidden'>
-      <div className='relative flex h-140 items-center justify-center px-6 pb-4 pt-6 bg-[#FBFAF9] transition-colors duration-250 group-hover:bg-[#234471]'>
+      <div className='relative flex h-140 items-center justify-center px-6 pb-4 pt-6 bg-(--shop-card-bg) transition-colors duration-250 group-hover:bg-(--shop-card-hover-bg)'>
         {subscribeLabel ? (
-          <span className='absolute left-4 top-4 whitespace-nowrap rounded-[15px] border border-[#F2F2F2] bg-white px-3 py-1 text-base text-[#474747] '>
+          <span className='absolute left-4 top-4 whitespace-nowrap rounded-[15px] border border-(--shop-badge-border) bg-white px-3 py-1 text-base text-(--shop-badge-text) '>
             {subscribeLabel}
           </span>
         ) : null}

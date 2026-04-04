@@ -19,7 +19,7 @@ export default function ShopProductsGrid({ products }: ShopProductsGridProps) {
       </div>
 
       <div className='mt-10 flex justify-center'>
-        <p className='rounded-full text-[#979191] px-6 py-2 text-center text-sm font-medium md:text-base'>
+        <p className='rounded-full text-(--shop-pagination-text) px-6 py-2 text-center text-sm font-medium md:text-base'>
           Showing 6 Results out of 200
         </p>
       </div>
