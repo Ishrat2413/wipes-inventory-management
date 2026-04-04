@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
 
 type ProductCardProps = {
+  productId: string;
   image: string;
   imageAlt: string;
   name: string;
@@ -15,6 +17,7 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({
+  productId,
   image,
   imageAlt = "Product image",
   subscribeLabel = "Subscribe & Save 15%",
@@ -23,6 +26,7 @@ export default function ProductCard({
   tags = [],
   imageLoading = "lazy",
 }: ProductCardProps) {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
 
   const handleDecrease = () => {
@@ -39,9 +43,15 @@ export default function ProductCard({
     });
   };
 
+  const handleOpenDetails = () => {
+    router.push(`/shop/${productId}`);
+  };
+
   return (
-    <div className='group flex w-full flex-col overflow-hidden'>
-      <div className='relative flex h-140 items-center justify-center px-6 pb-4 pt-6 bg-(--shop-card-bg) transition-colors duration-250 group-hover:bg-(--shop-card-hover-bg)'>
+    <div className='group flex w-full cursor-pointer flex-col overflow-hidden'>
+      <div
+        className='relative flex h-140 items-center justify-center px-6 pb-4 pt-6 bg-(--shop-card-bg) transition-colors duration-250 group-hover:bg-(--shop-card-hover-bg)'
+        onClick={handleOpenDetails}>
         {subscribeLabel ? (
           <span className='absolute left-4 top-4 whitespace-nowrap rounded-[15px] border border-(--shop-badge-border) bg-white px-3 py-1 text-base text-(--shop-badge-text) '>
             {subscribeLabel}
@@ -65,7 +75,10 @@ export default function ProductCard({
             <button
               type='button'
               aria-label='Decrease quantity'
-              onClick={handleDecrease}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDecrease();
+              }}
               className='text-3xl leading-none transition-opacity hover:opacity-80'>
               -
             </button>
@@ -73,7 +86,10 @@ export default function ProductCard({
             <button
               type='button'
               aria-label='Increase quantity'
-              onClick={handleIncrease}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleIncrease();
+              }}
               className='text-3xl leading-none transition-opacity hover:opacity-80'>
               +
             </button>
@@ -81,7 +97,10 @@ export default function ProductCard({
 
           <button
             type='button'
-            onClick={handleAddToCart}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleAddToCart();
+            }}
             className='h-14 rounded-full bg-white text-lg font-medium text-(--text-primary) transition-opacity hover:opacity-90'>
             Add to Cart
           </button>
@@ -89,14 +108,17 @@ export default function ProductCard({
 
         <button
           type='button'
-          onClick={handleAddToCart}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleAddToCart();
+          }}
           className='absolute inset-x-5 bottom-5 flex h-16 items-center justify-between rounded-full bg-white px-6 text-(--text-primary) transition-opacity group-hover:hidden'>
           <span className='text-lg font-medium leading-none'>Add to Cart</span>
           <span className='text-4xl leading-none'>+</span>
         </button>
       </div>
 
-      <div className='flex flex-col gap-2 px-4 pb-5 pt-1'>
+      <div className='flex flex-col gap-2 px-4 pb-5 pt-1' onClick={handleOpenDetails}>
         <div>
           <h3 className='text-2xl leading-snug text-(--text-primary)'>
             {name}

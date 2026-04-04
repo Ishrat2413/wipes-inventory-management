@@ -12,6 +12,7 @@ export default function ShopProductsGrid({ products }: ShopProductsGridProps) {
         {products.map(({ id, ...product }, index) => (
           <ProductCard
             key={id}
+            productId={id}
             {...product}
             imageLoading={index === 0 ? "eager" : "lazy"}
           />
