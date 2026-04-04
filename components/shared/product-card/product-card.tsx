@@ -28,6 +28,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
+  const livePriceLabel = `Price: $${(price * quantity).toFixed(2)}`;
 
   const handleDecrease = () => {
     setQuantity((current) => Math.max(1, current - 1));
@@ -53,10 +54,14 @@ export default function ProductCard({
         className='relative flex h-140 items-center justify-center px-6 pb-4 pt-6 bg-(--shop-card-bg) transition-colors duration-250 group-hover:bg-(--shop-card-hover-bg)'
         onClick={handleOpenDetails}>
         {subscribeLabel ? (
-          <span className='absolute left-4 top-4 whitespace-nowrap rounded-[15px] border border-(--shop-badge-border) bg-white px-3 py-1 text-base text-(--shop-badge-text) '>
+          <span className='absolute left-4 top-4 whitespace-nowrap rounded-[15px] border border-(--shop-badge-border) bg-white px-3 py-1 text-base text-(--shop-badge-text) group-hover:hidden'>
             {subscribeLabel}
           </span>
         ) : null}
+
+        <span className='absolute left-4 top-4 hidden whitespace-nowrap rounded-[15px] border border-(--shop-badge-border) bg-white px-3 py-1 text-base text-(--shop-badge-text) group-hover:inline-flex'>
+          {livePriceLabel}
+        </span>
 
         <div className='relative h-[88%] w-[88%] transition-opacity duration-250 group-hover:opacity-0'>
           <Image
