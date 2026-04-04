@@ -2,9 +2,10 @@
 
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-export function Toaster({ ...props }: ToasterProps) {
+export function Toaster({ closeButton = true, ...props }: ToasterProps) {
   return (
     <Sonner
+      closeButton={closeButton}
       className='toaster group'
       toastOptions={{
         classNames: {
