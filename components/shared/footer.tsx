@@ -101,15 +101,15 @@ const Footer = () => {
             ]}
             subtitleClassName='mt-2 px-2 text-[24px]! text-white!'
           />
-          <div className='flex flex-col md:flex-row justify-start gap-x-6 mt-8 mb-20'>
+          <div className='flex flex-row justify-start gap-x-6 mt-8 mb-20'>
             <button
               type='button'
-              className='bg-white px-6 py-4 text-xl rounded-full text-(--text-primary) shadow-sm hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-(--text-primary)/40 transition-all duration-300 cursor-pointer font-semibold'>
+              className='bg-white px-6 py-4 text-base md:text-xl rounded-full text-(--text-primary) shadow-sm hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-(--text-primary)/40 transition-all duration-300 cursor-pointer font-semibold'>
               Shop ZilkyWipes
             </button>
             <button
               type='button'
-              className='bg-transparent border-2 border-white text-white px-6 py-4 text-xl rounded-full shadow-sm hover:bg-white hover:text-(--text-primary) hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-300'>
+              className='bg-transparent border-2 border-white text-white px-6 py-4 text-base md:text-xl rounded-full shadow-sm hover:bg-white hover:text-(--text-primary) hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-300'>
               Subscribe & Save
             </button>
           </div>
