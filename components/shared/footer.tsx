@@ -1,7 +1,6 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import PageTitle from "./page-title/page-title";
 
