@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function RecentOrder() {
   const orderData = [
@@ -44,9 +45,11 @@ export default function RecentOrder() {
                 key={index}
                 className='mb-4 flex justify-between items-center border-b border-[#E5E5E5] pb-2'>
                 <p className='text-[#474747] text-sm '>{item.title}</p>
-                <Button className='bg-transparent text-(--text-primary) underline hover:text-(--text-primary) transition-colors duration-200 cursor-pointer font-medium'>
-                  Track
-                </Button>
+                <Link href='/account/track-order'>
+                  <Button className='bg-transparent text-(--text-primary) underline hover:text-(--text-primary) transition-colors duration-200 cursor-pointer font-medium'>
+                    Track
+                  </Button>
+                </Link>
               </div>
             ))}
           </div>
