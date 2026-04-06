@@ -7,11 +7,13 @@ import PageTitle from "@/components/shared/page-title/page-title";
 type ShopHeaderProps = {
   activeCategory: ShopCategory;
   onCategoryChange: (category: ShopCategory) => void;
+  titleContent?: React.ReactNode;
 };
 
 export default function ShopHeader({
   activeCategory,
   onCategoryChange,
+  titleContent,
 }: ShopHeaderProps) {
   return (
     <section className='bg-white'>
@@ -22,10 +24,12 @@ export default function ShopHeader({
               align='start'
               titleClassName='text-3xl md:text-6xl leading-[1.08]'
               titleContent={
-                <>
-                  One Time <span className='px-1 text-[#9aa6b8]'>/</span>
-                  <span className='text-[#8291a8]'> Subscription</span>
-                </>
+                titleContent ?? (
+                  <>
+                    One Time <span className='px-1 text-[#9aa6b8]'>/</span>
+                    <span className='text-[#8291a8]'> Subscription</span>
+                  </>
+                )
               }
             />
 
