@@ -4,7 +4,8 @@ type TitleAlign = "start" | "center";
 
 export interface PageTitleProps {
   title?: string;
-  subtitle?: string;
+  titleContent?: React.ReactNode;
+  subtitle?: string[];
   align?: TitleAlign;
   className?: string;
   titleClassName?: string;
@@ -13,13 +14,14 @@ export interface PageTitleProps {
 
 export default function PageTitle({
   title,
+  titleContent,
   subtitle,
   align = "center",
   className,
   titleClassName,
   subtitleClassName,
 }: PageTitleProps) {
-  if (!title && !subtitle) {
+  if (!title && !titleContent && !subtitle) {
     return null;
   }
 
@@ -29,25 +31,29 @@ export default function PageTitle({
     <section
       className={cn("", isCenter ? "text-center" : "text-left", className)}>
       <div className={cn(isCenter ? "mx-auto max-w-3xl" : "w-full")}>
-        {title ? (
+        {title || titleContent ? (
           <h2
             className={cn(
               "font-heading text-5xl text-(--text-primary) font-bold md:text-[58px]",
               titleClassName,
             )}>
-            {title}
+            {titleContent ?? title}
           </h2>
         ) : null}
 
-        {subtitle ? (
-          <p
+        {subtitle?.length ? (
+          <div
             className={cn(
-              "font-mono text-xl text-(--text-secondary) md:text-[28px] pt-3",
+              "font-mono text-lg text-(--text-secondary) md:text-[28px] pt-3",
               isCenter ? "mx-auto max-w-full" : "w-full",
               subtitleClassName,
             )}>
-            {subtitle}
-          </p>
+            {subtitle.map((line, index) => (
+              <p key={index} className='leading-relaxed md:-m-2'>
+                {line}
+              </p>
+            ))}
+          </div>
         ) : null}
       </div>
     </section>
