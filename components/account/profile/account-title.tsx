@@ -2,7 +2,7 @@ import PageTitle from "@/components/shared/page-title/page-title";
 
 export default function AccountTitle() {
   return (
-    <section className='mt-30 '>
+    <section className='mt-30 mx-6'>
       <div className='flex justify-center'>
         <button
           type='button'
