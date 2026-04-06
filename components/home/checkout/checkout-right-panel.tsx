@@ -30,80 +30,80 @@ const checkoutItems: CheckoutItem[] = [
 
 export default function CheckoutRightPanel() {
   return (
-    <aside className='flex h-full flex-col bg-(--checkout-panel-bg) px-4 py-5 sm:px-6 sm:py-6 md:px-8 lg:px-10'>
-      <h2 className='font-heading text-4xl text-(--text-primary) sm:text-5xl'>
+    <aside className='flex h-full flex-col bg-(--checkout-panel-bg) py-8 pl-8 pr-12.5'>
+      <h2 className='font-heading text-xl text-(--text-primary) md:text-3xl pb-8'>
         Items
       </h2>
 
-      <div className='mt-3 border-t border-(--checkout-divider)'>
+      <div className='border-t border-(--checkout-divider)'>
         {checkoutItems.map((item) => (
           <div
             key={item.id}
-            className='flex items-start justify-between gap-4 border-b border-(--checkout-divider) py-3 sm:py-4'>
-            <div className='flex items-start gap-3'>
-              <div className='relative h-10 w-6 sm:h-12 sm:w-7'>
+            className='flex items-start justify-between border-b border-(--checkout-divider) py-6'>
+            <div className='flex items-start gap-6'>
+              <div className='relative h-10 w-10 md:h-16 md:w-16'>
                 <Image
                   src={item.image}
                   alt={item.imageAlt}
                   fill
-                  sizes='48px'
+                  sizes='64px'
                   className='object-contain'
                 />
               </div>
               <div>
-                <p className='text-sm leading-snug text-(--text-primary) sm:text-base'>
+                <p className='text-sm leading-snug text-(--checkout-muted-text) md:text-2xl'>
                   {item.name}
                 </p>
-                <p className='mt-1 text-sm text-(--checkout-muted-text)'>
+                <p className=' mt-2 text-sm md:text-2xl text-(--checkbox-muted-subtext)'>
                   {item.quantity}x
                 </p>
               </div>
             </div>
 
-            <p className='text-sm text-(--text-primary) sm:text-base'>
+            <p className='text-sm text-(--checkout-muted-text) md:text-2xl'>
               ${item.price.toFixed(2)}
             </p>
           </div>
         ))}
       </div>
 
-      <form className='mt-6 flex items-center gap-2'>
+      <form className='mt-6 py-6 flex items-center gap-2'>
         <input
           type='text'
           placeholder='Discount Code'
-          className='h-10 flex-1 rounded-sm border border-transparent bg-white px-3 text-sm text-(--text-primary) placeholder:text-(--checkout-muted-text) focus:outline-none focus:ring-1 focus:ring-(--text-primary)'
+          className='text-base flex-1 rounded-[6px] border border-transparent bg-white p-3 text-(--checkbox-muted-subtext) placeholder:text-(--checkout-muted-text) focus:outline-none focus:ring-1 focus:ring-(--text-primary)'
         />
         <button
           type='button'
-          className='h-10 rounded-sm bg-(--text-primary) px-5 text-sm font-medium text-white'>
+          className='rounded-[6px] bg-(--text-primary) px-6 py-3 text-base font-medium text-white'>
           Apply
         </button>
       </form>
 
-      <div className='mt-auto pt-12 sm:pt-20'>
-        <dl className='space-y-2.5 text-sm sm:text-base'>
-          <div className='flex items-center justify-between text-(--checkout-muted-text)'>
-            <dt>Subtotal · 1 Item</dt>
-            <dd>$20.00</dd>
+      <div className='mt-auto'>
+        <dl className='space-y-4 text-base md:text-2xl pb-6'>
+          <div className='flex items-center justify-between'>
+            <dt className="text-(--checkbox-muted-subtext)">Subtotal · 1 Item</dt>
+            <dd className="text-(--checkout-muted-text)">$20.00</dd>
           </div>
-          <div className='flex items-center justify-between text-(--checkout-muted-text)'>
-            <dt>Shipping</dt>
-            <dd>Delivery</dd>
+          <div className='flex items-center justify-between'>
+            <dt className="text-(--checkbox-muted-subtext)">Shipping</dt>
+            <dd className="text-(--checkout-muted-text)">Delivery</dd>
           </div>
-          <div className='flex items-center justify-between text-(--checkout-muted-text)'>
-            <dt>Subscription</dt>
-            <dd>Bi - Monthly</dd>
+          <div className='flex items-center justify-between'>
+            <dt className="text-(--checkbox-muted-subtext)">Subscription</dt>
+            <dd className="text-(--checkout-muted-text)">Bi - Monthly</dd>
           </div>
-          <div className='flex items-center justify-between text-(--checkout-muted-text)'>
-            <dt>Discount</dt>
-            <dd>$ - 10</dd>
+          <div className='flex items-center justify-between'>
+            <dt className="text-(--checkbox-muted-subtext)">Discount</dt>
+            <dd className="text-(--checkout-muted-text)">$ - 10</dd>
           </div>
         </dl>
 
-        <div className='mt-3 border-t border-(--checkout-divider) pt-3'>
+        <div className='border-t border-(--checkout-divider) pt-6'>
           <div className='flex items-center justify-between'>
-            <p className='text-lg text-(--checkout-muted-text) sm:text-xl'>Total</p>
-            <p className='font-heading text-4xl text-(--text-primary) sm:text-5xl'>
+            <p className='text-lg text-(--checkbox-muted-subtext) md:text-2xl'>Total</p>
+            <p className='font-heading text-xl text-(--checkout-muted-text) md:text-3xl'>
               $30.00
             </p>
           </div>

@@ -22,7 +22,7 @@ export default function Navbar() {
               : "border-b border-black/10 bg-white/90 backdrop-blur"
         }`}>
         <nav
-          className={`mx-5 md:mx-11.5 grid items-center py-3 md:py-4 ${
+          className={`mx-5 md:mx-12.5 grid items-center py-5 md:py-8 ${
             isShop ? "grid-cols-2" : "grid-cols-3"
           } ${
             isHome ? "text-white" : "text-(--text-primary)"
