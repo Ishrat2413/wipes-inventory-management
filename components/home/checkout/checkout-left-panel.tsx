@@ -1,5 +1,6 @@
 "use client";
 
+import CheckoutReferFriendModal from "@/components/home/checkout/checkout-refer-friend-modal";
 import CheckoutReviewModal from "@/components/home/checkout/checkout-review-modal";
 import CheckoutSuccessModal from "@/components/home/checkout/checkout-success-modal";
 import { ChevronDown, Lock, Search, Store, Truck } from "lucide-react";
@@ -36,6 +37,7 @@ const inputBaseClass =
 export default function CheckoutLeftPanel() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isReferModalOpen, setIsReferModalOpen] = useState(false);
   const { register, control, handleSubmit } = useForm<CheckoutFormValues>({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -64,13 +66,21 @@ export default function CheckoutLeftPanel() {
   const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
 
   const onSubmit: SubmitHandler<CheckoutFormValues> = () => {
+    setIsReferModalOpen(false);
     setIsReviewModalOpen(false);
     setIsSuccessModalOpen(true);
   };
 
   const handleOpenReviewModal = () => {
+    setIsReferModalOpen(false);
     setIsSuccessModalOpen(false);
     setIsReviewModalOpen(true);
+  };
+
+  const handleOpenReferModal = () => {
+    setIsSuccessModalOpen(false);
+    setIsReviewModalOpen(false);
+    setIsReferModalOpen(true);
   };
 
   const emailId = useId();
@@ -495,6 +505,12 @@ export default function CheckoutLeftPanel() {
       <CheckoutReviewModal
         open={isReviewModalOpen}
         onClose={() => setIsReviewModalOpen(false)}
+        onOpenReferFriend={handleOpenReferModal}
+      />
+
+      <CheckoutReferFriendModal
+        open={isReferModalOpen}
+        onClose={() => setIsReferModalOpen(false)}
       />
     </aside>
   );

@@ -7,11 +7,13 @@ import { createPortal } from "react-dom";
 type CheckoutReviewModalProps = {
   open: boolean;
   onClose: () => void;
+  onOpenReferFriend: () => void;
 };
 
 export default function CheckoutReviewModal({
   open,
   onClose,
+  onOpenReferFriend,
 }: CheckoutReviewModalProps) {
   useEffect(() => {
     if (!open || typeof document === "undefined") {
@@ -103,6 +105,7 @@ export default function CheckoutReviewModal({
 
           <button
             type="button"
+            onClick={onOpenReferFriend}
             className="mt-3 w-full text-center text-white underline underline-offset-4"
             style={{ fontSize: "clamp(1rem, 3.5vw, 24px)" }}
           >
