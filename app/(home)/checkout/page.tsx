@@ -6,11 +6,11 @@ export default function CheckoutPage() {
     <section
       className='min-h-screen bg-white'
       style={{ paddingTop: "var(--navbar-height)" }}>
-      <div className='grid min-h-[calc(100dvh-var(--navbar-height))] grid-cols-1 overflow-hidden lg:grid-cols-2'>
-        <div className='bg-white lg:overflow-y-auto'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 lg:items-start'>
+        <div className='bg-white lg:min-h-[calc(100dvh-var(--navbar-height))]'>
           <CheckoutLeftPanel />
         </div>
-        <div className='bg-(--checkout-panel-bg)'>
+        <div className='bg-(--checkout-panel-bg) lg:min-h-[calc(100dvh-var(--navbar-height))]'>
           <CheckoutRightPanel />
         </div>
       </div>

@@ -6,7 +6,7 @@ import { useId, useState } from "react";
 type DeliveryMethod = "ship" | "pickup";
 
 const inputBaseClass =
-  "h-12 w-full rounded-[10px] border border-(--checkout-divider) bg-white px-4 text-base text-(--checkout-muted-text) placeholder:text-(--checkbox-muted-subtext) focus:border-(--text-primary) focus:outline-none";
+  "w-full rounded-[8px] border border-(--checkout-divider) bg-white px-3 py-4 text-base text-(--checkout-muted-text) placeholder:text-(--checkbox-muted-subtext) focus:border-(--text-primary) focus:outline-none";
 
 export default function CheckoutLeftPanel() {
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("ship");
@@ -26,16 +26,16 @@ export default function CheckoutLeftPanel() {
   const saveInfoId = useId();
 
   return (
-    <aside className='mx-auto w-full max-w-190 px-6 py-8 md:px-10 md:py-10 lg:px-14'>
-      <form className='space-y-8'>
-        <section className='space-y-4'>
+    <aside className='mx-auto w-full px-6 py-4 md:px-12.5 md:py-8'>
+      <form className='space-y-16'>
+        <section className='space-y-3'>
           <div className='flex items-center justify-between'>
-            <h2 className='font-heading text-4xl leading-none text-(--text-primary)'>
+            <h2 className='text-xl md:text-2xl leading-none text-(--checkout-muted-text)'>
               Contact
             </h2>
             <button
               type='button'
-              className='text-base text-(--text-primary) underline-offset-2 hover:underline'>
+              className='text-sm md:text-base text-(--text-primary) underline'>
               Sign in
             </button>
           </div>
@@ -66,12 +66,12 @@ export default function CheckoutLeftPanel() {
         </section>
 
         <section className='space-y-4'>
-          <h2 className='font-heading text-4xl leading-none text-(--text-primary)'>
+          <h2 className='text-xl md:text-2xl leading-none text-(--checkout-muted-text)'>
             Delivery
           </h2>
 
           <div
-            className='rounded-[10px] border border-(--checkout-divider) p-1'
+            className='rounded-[8px] border border-(--checkout-divider)'
             role='radiogroup'
             aria-labelledby={deliveryId}>
             <span id={deliveryId} className='sr-only'>
@@ -79,7 +79,7 @@ export default function CheckoutLeftPanel() {
             </span>
 
             <label
-              className={`flex cursor-pointer items-center justify-between rounded-[8px] border px-3 py-3 transition ${
+              className={`flex cursor-pointer items-center justify-between rounded-t-[8px] border p-4 transition ${
                 deliveryMethod === "ship"
                   ? "border-(--text-primary) bg-[#f7f2f3]"
                   : "border-transparent bg-white hover:bg-(--checkout-panel-bg)"
@@ -120,8 +120,8 @@ export default function CheckoutLeftPanel() {
           </div>
         </section>
 
-        <section className='space-y-4'>
-          <h2 className='font-heading text-4xl leading-none text-(--text-primary)'>
+        <section className='space-y-3'>
+          <h2 className='text-xl md:text-2xl leading-none text-(--checkout-muted-text)'>
             Country/Region
           </h2>
 
@@ -258,7 +258,7 @@ export default function CheckoutLeftPanel() {
             />
             <label
               htmlFor={saveInfoId}
-              className='text-base text-(--checkout-muted-text)'>
+              className='text-base text-(--checkbox-muted-foreground)'>
               Save this information for next time
             </label>
           </div>
@@ -267,3 +267,4 @@ export default function CheckoutLeftPanel() {
     </aside>
   );
 }
+
