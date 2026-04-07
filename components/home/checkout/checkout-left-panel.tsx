@@ -1,15 +1,65 @@
 "use client";
 
-import { ChevronDown, Search, Store, Truck } from "lucide-react";
-import { useId, useState } from "react";
+import { ChevronDown, Lock, Package, Search, Store, Truck } from "lucide-react";
+import { useId } from "react";
+import { useForm, useWatch, type SubmitHandler } from "react-hook-form";
 
 type DeliveryMethod = "ship" | "pickup";
+
+type CheckoutFormValues = {
+  email: string;
+  marketingOptIn: boolean;
+  deliveryMethod: DeliveryMethod;
+  country: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  apartment: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  phoneNumber: string;
+  saveInfo: boolean;
+  paymentMethod: "credit-card";
+  cardNumber: string;
+  expiry: string;
+  securityCode: string;
+  cardName: string;
+  billingSameAsShipping: boolean;
+};
 
 const inputBaseClass =
   "w-full rounded-[8px] border border-(--checkout-divider) bg-white px-3 py-4 text-base text-(--checkout-muted-text) placeholder:text-(--checkbox-muted-subtext) focus:border-(--text-primary) focus:outline-none";
 
 export default function CheckoutLeftPanel() {
-  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("ship");
+  const { register, control, handleSubmit } = useForm<CheckoutFormValues>({
+    mode: "onBlur",
+    reValidateMode: "onChange",
+    defaultValues: {
+      email: "",
+      marketingOptIn: true,
+      deliveryMethod: "ship",
+      country: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+      apartment: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      phoneNumber: "",
+      saveInfo: true,
+      paymentMethod: "credit-card",
+      cardNumber: "",
+      expiry: "",
+      securityCode: "",
+      cardName: "",
+      billingSameAsShipping: true,
+    },
+  });
+  const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
+
+  const onSubmit: SubmitHandler<CheckoutFormValues> = () => {};
 
   const emailId = useId();
   const marketingId = useId();
@@ -24,10 +74,19 @@ export default function CheckoutLeftPanel() {
   const zipId = useId();
   const phoneId = useId();
   const saveInfoId = useId();
+  const cardNumberId = useId();
+  const expiryId = useId();
+  const securityCodeId = useId();
+  const cardNameId = useId();
+  const billingAddressId = useId();
 
   return (
     <aside className='mx-auto w-full px-6 py-4 md:px-12.5 md:py-8'>
-      <form className='space-y-16'>
+      <form
+        className='space-y-16'
+        autoComplete='on'
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}>
         <section className='space-y-3'>
           <div className='flex items-center justify-between'>
             <h2 className='text-xl md:text-2xl leading-none text-(--checkout-muted-text)'>
@@ -46,7 +105,9 @@ export default function CheckoutLeftPanel() {
           <input
             id={emailId}
             type='email'
+            autoComplete='email'
             placeholder='Email'
+            {...register("email")}
             className={inputBaseClass}
           />
 
@@ -54,7 +115,7 @@ export default function CheckoutLeftPanel() {
             <input
               id={marketingId}
               type='checkbox'
-              defaultChecked
+              {...register("marketingOptIn")}
               className='h-4 w-4 rounded border-(--checkout-divider) accent-(--text-primary)'
             />
             <label
@@ -87,10 +148,8 @@ export default function CheckoutLeftPanel() {
               <span className='flex items-center gap-3'>
                 <input
                   type='radio'
-                  name='delivery-method'
+                  {...register("deliveryMethod")}
                   value='ship'
-                  checked={deliveryMethod === "ship"}
-                  onChange={() => setDeliveryMethod("ship")}
                   className='h-4 w-4 accent-(--text-primary)'
                 />
                 <span className='text-base text-(--checkout-muted-text)'>Ship</span>
@@ -107,10 +166,8 @@ export default function CheckoutLeftPanel() {
               <span className='flex items-center gap-3'>
                 <input
                   type='radio'
-                  name='delivery-method'
+                  {...register("deliveryMethod")}
                   value='pickup'
-                  checked={deliveryMethod === "pickup"}
-                  onChange={() => setDeliveryMethod("pickup")}
                   className='h-4 w-4 accent-(--text-primary)'
                 />
                 <span className='text-base text-(--checkout-muted-text)'>Pick up</span>
@@ -132,6 +189,7 @@ export default function CheckoutLeftPanel() {
             <select
               id={countryId}
               defaultValue=''
+              {...register("country")}
               className={`${inputBaseClass} appearance-none pr-10 text-(--checkbox-muted-subtext)`}>
               <option value='' disabled>
                 Select...
@@ -151,7 +209,9 @@ export default function CheckoutLeftPanel() {
               <input
                 id={firstNameId}
                 type='text'
+                autoComplete='given-name'
                 placeholder='First Name'
+                {...register("firstName")}
                 className={inputBaseClass}
               />
             </div>
@@ -162,7 +222,9 @@ export default function CheckoutLeftPanel() {
               <input
                 id={lastNameId}
                 type='text'
+                autoComplete='family-name'
                 placeholder='Last Name'
+                {...register("lastName")}
                 className={inputBaseClass}
               />
             </div>
@@ -175,7 +237,9 @@ export default function CheckoutLeftPanel() {
             <input
               id={addressId}
               type='text'
+              autoComplete='street-address'
               placeholder='Address'
+              {...register("address")}
               className={`${inputBaseClass} pr-10`}
             />
             <Search className='pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--checkout-muted-text)' />
@@ -188,7 +252,9 @@ export default function CheckoutLeftPanel() {
             <input
               id={apartmentId}
               type='text'
+              autoComplete='address-line2'
               placeholder='Apartment, suite, etc. (Optional)'
+              {...register("apartment")}
               className={inputBaseClass}
             />
           </div>
@@ -201,7 +267,9 @@ export default function CheckoutLeftPanel() {
               <input
                 id={cityId}
                 type='text'
+                autoComplete='address-level2'
                 placeholder='City'
+                {...register("city")}
                 className={inputBaseClass}
               />
             </div>
@@ -213,6 +281,7 @@ export default function CheckoutLeftPanel() {
               <select
                 id={stateId}
                 defaultValue=''
+                {...register("state")}
                 className={`${inputBaseClass} appearance-none pr-10 text-(--checkout-muted-text)`}>
                 <option value='' disabled>
                   State
@@ -231,7 +300,9 @@ export default function CheckoutLeftPanel() {
               <input
                 id={zipId}
                 type='text'
+                autoComplete='postal-code'
                 placeholder='Zip Code'
+                {...register("zipCode")}
                 className={inputBaseClass}
               />
             </div>
@@ -244,7 +315,9 @@ export default function CheckoutLeftPanel() {
             <input
               id={phoneId}
               type='tel'
+              autoComplete='tel'
               placeholder='Phone Number'
+              {...register("phoneNumber")}
               className={inputBaseClass}
             />
           </div>
@@ -253,7 +326,7 @@ export default function CheckoutLeftPanel() {
             <input
               id={saveInfoId}
               type='checkbox'
-              defaultChecked
+              {...register("saveInfo")}
               className='h-4 w-4 rounded border-(--checkout-divider) accent-(--text-primary)'
             />
             <label
@@ -263,8 +336,143 @@ export default function CheckoutLeftPanel() {
             </label>
           </div>
         </section>
+
+        <section className='space-y-3'>
+          <h2 className='text-xl md:text-2xl leading-none text-(--checkout-muted-text)'>
+            Shipping method
+          </h2>
+
+          <div className='flex items-center justify-center rounded-[8px] bg-(--checkout-panel-bg) px-4 py-4 text-center text-base text-(--checkbox-muted-subtext)'>
+            <span>Enter your shipping address to view available shipping methods.</span>
+          </div>
+        </section>
+
+        <section className='space-y-3'>
+          <h2 className='text-xl md:text-2xl leading-none text-(--checkout-muted-text)'>
+            Payment
+          </h2>
+
+          <p className='text-base text-(--checkbox-muted-subtext)'>
+            All transactions are secure and encrypted.
+          </p>
+
+          <div className='overflow-hidden rounded-[8px] border border-(--checkout-divider)'>
+            <label className='flex cursor-pointer items-center justify-between border-b border-(--checkout-divider) bg-[#FEF4F4] px-3 py-3'>
+              <span className='flex items-center gap-2'>
+                <input
+                  type='radio'
+                  {...register("paymentMethod")}
+                  value='credit-card'
+                  className='h-4 w-4 accent-(--text-primary)'
+                />
+                <span className='text-base text-(--checkout-muted-text)'>
+                  Credit card
+                </span>
+              </span>
+
+              <span className='flex items-center gap-1'>
+                <span className='rounded-lg border border-(--checkout-divider) bg-white px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-[#3556a7]'>
+                  VISA
+                </span>
+                <span className='rounded-lg border border-(--checkout-divider) bg-white px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-[#e45a4a]'>
+                  MC
+                </span>
+                <span className='rounded-lg border border-(--checkout-divider) bg-white px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-[#4f86d9]'>
+                  AMEX
+                </span>
+                <span className='rounded-lg border border-(--checkout-divider) bg-white px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-(--checkout-muted-text)'>
+                  +5
+                </span>
+              </span>
+            </label>
+
+            <div className='space-y-3 bg-(--checkout-panel-bg) p-4'>
+              <div className='relative'>
+                <label htmlFor={cardNumberId} className='sr-only'>
+                  Card Number
+                </label>
+                <input
+                  id={cardNumberId}
+                  type='text'
+                  autoComplete='cc-number'
+                  inputMode='numeric'
+                  placeholder='Card Number'
+                  {...register("cardNumber")}
+                  className={`${inputBaseClass} pr-10`}
+                />
+                <Lock className='pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--checkbox-muted-subtext)' />
+              </div>
+
+              <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+                <div>
+                  <label htmlFor={expiryId} className='sr-only'>
+                    Expire Date (MM/YY)
+                  </label>
+                  <input
+                    id={expiryId}
+                    type='text'
+                    autoComplete='cc-exp'
+                    inputMode='numeric'
+                    placeholder='Expire Date (MM/YY)'
+                    {...register("expiry")}
+                    className={inputBaseClass}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor={securityCodeId} className='sr-only'>
+                    Security Code
+                  </label>
+                  <input
+                    id={securityCodeId}
+                    type='text'
+                    autoComplete='cc-csc'
+                    inputMode='numeric'
+                    placeholder='Security Code'
+                    {...register("securityCode")}
+                    className={inputBaseClass}
+                  />
+                </div>
+              </div>
+
+              <div className='relative'>
+                <label htmlFor={cardNameId} className='sr-only'>
+                  Name on Card
+                </label>
+                <input
+                  id={cardNameId}
+                  type='text'
+                  autoComplete='cc-name'
+                  placeholder='Name on Card'
+                  {...register("cardName")}
+                  className={`${inputBaseClass} pr-10`}
+                />
+                <Lock className='pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--checkbox-muted-subtext)' />
+              </div>
+
+              <div className='flex items-center gap-3'>
+                <input
+                  id={billingAddressId}
+                  type='checkbox'
+                  {...register("billingSameAsShipping")}
+                  className='h-4 w-4 rounded border-(--checkout-divider) accent-(--text-primary)'
+                />
+                <label
+                  htmlFor={billingAddressId}
+                  className='text-base text-(--checkout-muted-text)'>
+                  Use shipping address as billing address
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <button
+          type='submit'
+          className='w-full rounded-full bg-(--text-primary) px-6 py-5 text-2xl text-white transition hover:opacity-95'>
+          Pay Now
+        </button>
       </form>
     </aside>
   );
 }
-
