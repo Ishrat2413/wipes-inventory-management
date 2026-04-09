@@ -23,7 +23,7 @@ export default function SubsSection2() {
         <div className='w-full max-w-180 lg:max-w-160'>
           <PageTitle
             title='Choose your rhythm.'
-            titleClassName='max-w-180! text-[40px]! leading-[1.1]! md:text-[56px]!'
+            titleClassName='max-w-180! mx-auto text-[40px]! leading-[1.1]! md:text-[56px]!'
             subtitle={[
               " Monthly delivery / Bi-monthly delivery",
               "You can change this anytime.",
