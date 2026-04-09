@@ -16,7 +16,7 @@ export default function SubsSection1() {
         <div className='w-full max-w-180 lg:max-w-170'>
           <PageTitle
             title='.....Because comfort shouldn’t be a reminder!'
-            titleClassName='max-w-180! text-[40px]! leading-[1.1]! md:text-[56px]!'
+            titleClassName='max-w-180! mx-auto text-[40px]! leading-[1.1]! md:text-[56px]!'
             subtitle={[
               "ZilkyWipes arrives before you need it.",
               "No last-minute runs. No guessing.",
