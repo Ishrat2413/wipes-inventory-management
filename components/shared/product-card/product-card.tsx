@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ export default function ProductCard({
   imageLoading = "lazy",
 }: ProductCardProps) {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
   const [quantity, setQuantity] = useState(1);
   const livePriceLabel = `Price: $${(price * quantity).toFixed(2)}`;
 
@@ -49,7 +51,24 @@ export default function ProductCard({
   };
 
   return (
-    <div className='group flex w-full cursor-pointer flex-col overflow-hidden'>
+    <motion.div
+      className='group flex w-full cursor-pointer flex-col overflow-hidden'
+      whileHover={
+        shouldReduceMotion
+          ? undefined
+          : {
+              y: -4,
+              scale: 1.008,
+            }
+      }
+      whileTap={
+        shouldReduceMotion
+          ? undefined
+          : {
+              scale: 0.996,
+            }
+      }
+      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}>
       <div
         className='relative flex h-104 sm:h-120 md:h-140 items-center justify-center px-4 sm:px-5 md:px-6 pb-3 md:pb-4 pt-4 md:pt-6 bg-(--shop-card-bg) transition-colors duration-250 group-hover:bg-(--shop-card-hover-bg)'
         onClick={handleOpenDetails}>
@@ -149,6 +168,6 @@ export default function ProductCard({
           </div>
         ) : null}
       </div>
-    </div>
+    </motion.div>
   );
 }
