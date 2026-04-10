@@ -1,6 +1,7 @@
 "use client";
 
 import CartDrawer from "@/components/shared/cart/cart-drawer";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,8 +19,138 @@ export default function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const shouldAnimate = !shouldReduceMotion;
   const pathname = usePathname();
   const isShopPage = pathname === "/shop";
+  const easing = [0.22, 1, 0.36, 1] as const;
+
+  const headerVariants = {
+    hidden: {
+      opacity: 0,
+      y: -16,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.52,
+        ease: easing,
+      },
+    },
+  };
+
+  const navListVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        delayChildren: 0.08,
+        staggerChildren: 0.06,
+      },
+    },
+  };
+
+  const navItemVariants = {
+    hidden: {
+      opacity: 0,
+      y: -10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.36,
+        ease: easing,
+      },
+    },
+  };
+
+  const ctaVariants = {
+    hidden: {
+      opacity: 0,
+      y: -10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.36,
+        delay: 0.24,
+        ease: easing,
+      },
+    },
+  };
+
+  const mobileMenuVariants = {
+    closed: {
+      opacity: 0,
+      y: -10,
+      transition: {
+        duration: 0.18,
+        ease: easing,
+      },
+    },
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.24,
+        ease: easing,
+        staggerChildren: 0.045,
+        delayChildren: 0.04,
+      },
+    },
+  };
+
+  const mobileItemVariants = {
+    closed: {
+      opacity: 0,
+      y: -8,
+    },
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.22,
+        ease: easing,
+      },
+    },
+  };
+
+  const headerMotionProps = shouldAnimate
+    ? {
+        initial: "hidden" as const,
+        animate: "visible" as const,
+        variants: headerVariants,
+      }
+    : {
+        initial: false as const,
+      };
+
+  const navListMotionProps = shouldAnimate
+    ? {
+        initial: "hidden" as const,
+        animate: "visible" as const,
+        variants: navListVariants,
+      }
+    : {};
+
+  const ctaMotionProps = shouldAnimate
+    ? {
+        initial: "hidden" as const,
+        animate: "visible" as const,
+        variants: ctaVariants,
+      }
+    : {};
+
+  const mobileMenuMotionProps = shouldAnimate
+    ? {
+        initial: "closed" as const,
+        animate: "open" as const,
+        exit: "closed" as const,
+        variants: mobileMenuVariants,
+      }
+    : {};
   const isActiveLink = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -43,8 +174,9 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 w-full transition-colors ${
+      <motion.header
+        {...headerMotionProps}
+        className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-300 ${
           scrolled || isMobileMenuOpen
             ? "border-b border-black/10 bg-white/50 backdrop-blur"
             : "bg-transparent"
@@ -86,58 +218,75 @@ export default function Navbar() {
               )}
             </button>
 
-            <div className='hidden lg:flex items-center gap-10.75'>
+            <motion.div
+              {...navListMotionProps}
+              className='hidden lg:flex items-center gap-10.75'>
               {navLinks.map((item) => (
-                <Link
+                <motion.span
                   key={item.label}
-                  href={item.href}
-                  className={`text-lg lg:text-2xl leading-none text-[#1D3A5F] transition-opacity hover:opacity-80 ${
-                    isActiveLink(item.href)
-                      ? "font-bold underline decoration-2 underline-offset-8"
-                      : "font-medium"
-                  }`}>
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-
-            {isShopPage ? (
-              <button
-                type='button'
-                onClick={() => setIsCartOpen(true)}
-                className='text-sm md:text-base lg:text-xl font-medium leading-none text-(--text-primary) transition-colors'>
-                Cart
-              </button>
-            ) : (
-              <Link
-                href='/shop'
-                className='text-sm md:text-base lg:text-xl font-medium leading-none rounded-full bg-white px-4 md:px-5 lg:px-6 py-2.5 md:py-3 lg:py-4 text-[#1D3A5F] transition-opacity hover:opacity-90'>
-                Shop ZilkyWipes
-              </Link>
-            )}
-          </div>
-
-          {isMobileMenuOpen ? (
-            <div className='mt-3 lg:hidden rounded-2xl border border-black/10 bg-white/95 p-3 shadow-sm backdrop-blur'>
-              <div className='flex flex-col'>
-                {navLinks.map((item) => (
+                  variants={shouldAnimate ? navItemVariants : undefined}
+                  className='inline-flex'>
                   <Link
-                    key={item.label}
                     href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`rounded-xl px-3 py-2 text-base text-[#1D3A5F] transition-colors hover:bg-black/5 ${
+                    className={`text-lg lg:text-2xl leading-none text-[#1D3A5F] transition-opacity hover:opacity-80 ${
                       isActiveLink(item.href)
-                        ? "font-bold underline decoration-2 underline-offset-4"
+                        ? "font-bold underline decoration-2 underline-offset-8"
                         : "font-medium"
                     }`}>
                     {item.label}
                   </Link>
-                ))}
-              </div>
-            </div>
-          ) : null}
+                </motion.span>
+              ))}
+            </motion.div>
+
+            {isShopPage ? (
+              <motion.div {...ctaMotionProps}>
+                <button
+                  type='button'
+                  onClick={() => setIsCartOpen(true)}
+                  className='text-sm md:text-base lg:text-xl font-medium leading-none text-(--text-primary) transition-colors'>
+                  Cart
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div {...ctaMotionProps}>
+                <Link
+                  href='/shop'
+                  className='text-sm md:text-base lg:text-xl font-medium leading-none rounded-full bg-white px-4 md:px-5 lg:px-6 py-2.5 md:py-3 lg:py-4 text-[#1D3A5F] transition-opacity hover:opacity-90'>
+                  Shop ZilkyWipes
+                </Link>
+              </motion.div>
+            )}
+          </div>
+
+          <AnimatePresence initial={false}>
+            {isMobileMenuOpen ? (
+              <motion.div
+                {...mobileMenuMotionProps}
+                className='mt-3 lg:hidden rounded-2xl border border-black/10 bg-white/95 p-3 shadow-sm backdrop-blur'>
+                <div className='flex flex-col'>
+                  {navLinks.map((item) => (
+                    <motion.div
+                      key={item.label}
+                      variants={shouldAnimate ? mobileItemVariants : undefined}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`rounded-xl px-3 py-2 text-base text-[#1D3A5F] transition-colors hover:bg-black/5 ${
+                          isActiveLink(item.href)
+                            ? "font-bold underline decoration-2 underline-offset-4"
+                            : "font-medium"
+                        }`}>
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </nav>
-      </header>
+      </motion.header>
 
       <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
