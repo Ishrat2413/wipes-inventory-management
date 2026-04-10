@@ -2,21 +2,21 @@ import PageTitle from "@/components/shared/page-title/page-title";
 import SplitContentSection from "@/components/shared/split-content-section";
 import { Button } from "@/components/ui/button";
 
-export default function Section2() {
+export default function AboutSection2() {
   return (
     <section>
-      {" "}
       <SplitContentSection
         desktopDirection='media-content'
         sectionClassName='md:mt-50'
         content={
           <>
             <PageTitle
-              title='Made for real bathrooms. And real bodies.'
+              title="Questions, feedback, or just curious? we'd love to hear from you."
               titleClassName='max-w-250! text-[40px]! leading-[1.1]! md:text-[56px]!'
               subtitle={[
-                "Everyday moments. Private spaces.",
-                "ZilkyWipes, exactly where it belongs.",
+                "Your experience matters to us.",
+                "Good or bad - we're listening.",
+                "It helps us do better.",
               ]}
               subtitleClassName='mt-6 text-[18px]! sm:text-[20px]! md:mt-8 md:text-[24px]!'
             />
