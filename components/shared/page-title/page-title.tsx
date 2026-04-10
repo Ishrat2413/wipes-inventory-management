@@ -15,6 +15,7 @@ export interface PageTitleProps {
   titleClassName?: string;
   subtitleClassName?: string;
   animate?: boolean;
+  shineColor?: string;
 }
 
 export default function PageTitle({
@@ -26,6 +27,7 @@ export default function PageTitle({
   titleClassName,
   subtitleClassName,
   animate = true,
+  shineColor,
 }: PageTitleProps) {
   const shouldReduceMotion = useReducedMotion();
   const shouldAnimate = animate && !shouldReduceMotion;
@@ -83,13 +85,16 @@ export default function PageTitle({
 
   const resolvedTitle = titleContent ?? title;
   const canShine = typeof resolvedTitle === "string" && shouldAnimate;
+  const isLightTitle = (titleClassName ?? "").includes("text-white");
+  const resolvedShineColor =
+    shineColor ?? (isLightTitle ? "rgb(144, 145, 153)" : "rgb(255,255,255)");
 
   useEffect(() => {
     if (!startShine) return;
 
     const timer = setTimeout(() => {
-      setStartShine(false);
-    }, 1800); // longer visibility
+      setStartShine(false); // remove shine after animation
+    }, 1700);
 
     return () => clearTimeout(timer);
   }, [startShine]);
@@ -124,24 +129,31 @@ export default function PageTitle({
           >
             {canShine ? (
               <span className="relative inline-block">
-                {resolvedTitle}
+                {/* Base text (always visible) */}
+                <span className="relative z-10">
+                  {resolvedTitle}
+                </span>
 
+                {/* Shine overlay */}
                 {startShine && (
                   <motion.span
                     aria-hidden
-                    initial={{ x: "-150%", opacity: 0 }}
-                    animate={{ x: "150%", opacity: 1 }}
+                    initial={{ backgroundPosition: "-200% 0%" }}
+                    animate={{ backgroundPosition: "200% 0%" }}
                     transition={{
-                      duration: 1.6, // slower
+                      duration: 1.6,
                       ease: "easeInOut",
                     }}
-                    className="pointer-events-none absolute inset-0"
+                    className="absolute inset-0 z-20 pointer-events-none bg-clip-text text-transparent"
                     style={{
-                      background:
-                        "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.95) 50%, transparent 65%)",
-                      mixBlendMode: "screen",
+                      backgroundImage:
+                        `linear-gradient(110deg, transparent 40%, ${resolvedShineColor} 50%, transparent 60%)`,
+                      backgroundSize: "200% 100%",
+                      WebkitBackgroundClip: "text",
                     }}
-                  />
+                  >
+                    {resolvedTitle}
+                  </motion.span>
                 )}
               </span>
             ) : (
