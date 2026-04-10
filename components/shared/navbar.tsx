@@ -230,8 +230,8 @@ export default function Navbar() {
                     href={item.href}
                     className={`text-lg lg:text-2xl leading-none text-[#1D3A5F] transition-opacity hover:opacity-80 ${
                       isActiveLink(item.href)
-                        ? "font-bold underline decoration-2 underline-offset-8"
-                        : "font-medium"
+                        ? "font-medium underline decoration-2 underline-offset-8"
+                        : "font-normal"
                     }`}>
                     {item.label}
                   </Link>
