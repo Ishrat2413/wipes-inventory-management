@@ -88,8 +88,8 @@ export default function PageTitle({
     if (!startShine) return;
 
     const timer = setTimeout(() => {
-      setStartShine(false); // remove shine after animation
-    }, 1200);
+      setStartShine(false);
+    }, 1800); // longer visibility
 
     return () => clearTimeout(timer);
   }, [startShine]);
@@ -129,15 +129,17 @@ export default function PageTitle({
                 {startShine && (
                   <motion.span
                     aria-hidden
-                    initial={{ x: "-120%" }}
-                    animate={{ x: "120%" }}
+                    initial={{ x: "-150%", opacity: 0 }}
+                    animate={{ x: "150%", opacity: 1 }}
                     transition={{
-                      duration: 1,
+                      duration: 1.6, // slower
                       ease: "easeInOut",
                     }}
-                    className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-white/90 to-transparent opacity-70"
+                    className="pointer-events-none absolute inset-0"
                     style={{
-                      mixBlendMode: "overlay",
+                      background:
+                        "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.95) 50%, transparent 65%)",
+                      mixBlendMode: "screen",
                     }}
                   />
                 )}

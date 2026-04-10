@@ -34,7 +34,7 @@ export default function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.52,
+        duration: 0.82,
         ease: easing,
       },
     },
@@ -44,8 +44,8 @@ export default function Navbar() {
     hidden: {},
     visible: {
       transition: {
-        delayChildren: 0.08,
-        staggerChildren: 0.06,
+        delayChildren: 0.18,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -59,7 +59,7 @@ export default function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.36,
+        duration: 0.54,
         ease: easing,
       },
     },
@@ -74,8 +74,8 @@ export default function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.36,
-        delay: 0.24,
+        duration: 0.56,
+        delay: 0.44,
         ease: easing,
       },
     },
@@ -86,7 +86,7 @@ export default function Navbar() {
       opacity: 0,
       y: -10,
       transition: {
-        duration: 0.18,
+        duration: 0.24,
         ease: easing,
       },
     },
@@ -94,10 +94,10 @@ export default function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.24,
+        duration: 0.36,
         ease: easing,
-        staggerChildren: 0.045,
-        delayChildren: 0.04,
+        staggerChildren: 0.07,
+        delayChildren: 0.08,
       },
     },
   };
@@ -111,7 +111,7 @@ export default function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.22,
+        duration: 0.32,
         ease: easing,
       },
     },
@@ -176,7 +176,7 @@ export default function Navbar() {
     <>
       <motion.header
         {...headerMotionProps}
-        className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-500 ${
           scrolled || isMobileMenuOpen
             ? "border-b border-black/10 bg-white/50 backdrop-blur"
             : "bg-transparent"
