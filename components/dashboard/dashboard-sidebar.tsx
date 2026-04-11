@@ -3,17 +3,13 @@
 import { cn } from "@/lib/utils";
 import {
   Bell,
-  Boxes,
   ChevronsLeft,
   CircleDollarSign,
-  FilePlus2,
   FileText,
   GalleryVerticalEnd,
-  Home,
   ListTree,
   Network,
   Package,
-  Plug,
   Search,
   Settings,
   Star,
