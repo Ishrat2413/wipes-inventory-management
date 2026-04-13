@@ -9,8 +9,7 @@ import {
   IndentIncrease,
   ListFilter,
   Package,
-  Pencil,
-  Trash2,
+  PencilLine,
 } from "lucide-react";
 
 type ProductRow = {
@@ -60,18 +59,12 @@ const columns: DashboardTableColumn<ProductRow>[] = [
     cell: (row) => {
       if (row.status === "out") {
         return (
-          <span className='text-[#ff4f4f]'>
-            {row.stock} (Out of Stock)
-          </span>
+          <span className='text-[#ff4f4f]'>{row.stock} (Out of Stock)</span>
         );
       }
 
       if (row.status === "low") {
-        return (
-          <span className='text-[#f3a84d]'>
-            {row.stock} (Low Stock)
-          </span>
-        );
+        return <span className='text-[#f3a84d]'>{row.stock} (Low Stock)</span>;
       }
 
       return <span>{row.stock}</span>;
@@ -86,14 +79,14 @@ const columns: DashboardTableColumn<ProductRow>[] = [
       <div className='flex items-center gap-2'>
         <button
           type='button'
-          className='inline-flex items-center gap-1 rounded-md border border-[#e4e4e4] bg-[#f7f7f7] px-2.5 py-1 text-xs text-[#616161] transition-colors hover:bg-[#efefef]'>
-          <Pencil className='h-3.5 w-3.5' />
+          className='inline-flex items-center gap-1 rounded-md border border-[#E5E7EB] bg-[#FAFAF9] px-2.5 py-1 text-sm text-[#262626] transition-colors hover:bg-[#efefef] cursor-pointer'>
+          <PencilLine className='h-3.5 w-3.5' color='#262626' />
           <span>Edit Product</span>
         </button>
         <button
           type='button'
-          className='inline-flex items-center gap-1 rounded-md border border-[#e4e4e4] bg-[#f7f7f7] px-2.5 py-1 text-xs text-[#61738b] transition-colors hover:bg-[#efefef]'>
-          <Trash2 className='h-3.5 w-3.5' />
+          className='inline-flex items-center gap-1 rounded-md border border-[#E5E7EB] bg-[#FAFAF9] px-2.5 py-1 text-sm text-[#262626] transition-colors hover:bg-[#efefef] cursor-pointer'>
+          {/* <Trash2 className='h-3.5 w-3.5' color='#262626' /> */}
           <span>Delete</span>
         </button>
       </div>
@@ -103,7 +96,7 @@ const columns: DashboardTableColumn<ProductRow>[] = [
 
 export default function DashboardProductsPage() {
   return (
-    <div className='p-3 md:p-4'>
+    <section className=''>
       <DashboardDataTable
         filterAction={{ label: "Filter", icon: ListFilter }}
         searchPlaceholder='Search Products, Status'
@@ -117,6 +110,6 @@ export default function DashboardProductsPage() {
         pageSizeOptions={[5, 10, 20, 50]}
         defaultPageSize={10}
       />
-    </div>
+    </section>
   );
 }

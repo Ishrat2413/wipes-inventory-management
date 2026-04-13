@@ -70,7 +70,7 @@ export default function DashboardDataTable<T>({
   const resolvedDefaultPageSize =
     defaultPageSize && pageSizeOptions.includes(defaultPageSize)
       ? defaultPageSize
-      : pageSizeOptions[0] ?? 10;
+      : (pageSizeOptions[0] ?? 10);
   const [pageSize, setPageSize] = useState(resolvedDefaultPageSize);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -139,11 +139,7 @@ export default function DashboardDataTable<T>({
   const canGoNext = safeCurrentPage < totalPages;
 
   return (
-    <section
-      className={cn(
-        "overflow-hidden rounded-lg border border-[#dfdfdf] ",
-        className,
-      )}>
+    <section className={cn("overflow-hidden ", className)}>
       <div className='flex items-center justify-between gap-3 border-b border-[#e1e1e1] px-4 py-2'>
         {filterAction ? (
           <button
@@ -195,8 +191,10 @@ export default function DashboardDataTable<T>({
                       column.headerClassName,
                     )}>
                     <span className='inline-flex items-center gap-1.5'>
-                      {Icon ? <Icon className='h-3.5 w-3.5 text-[#7c7c7c]' /> : null}
-                      <span>{column.header}</span>
+                      {Icon ? (
+                        <Icon className='h-3.5 w-3.5' color='#262626' />
+                      ) : null}
+                      <span className='text-[#262626]'>{column.header}</span>
                     </span>
                   </th>
                 );
@@ -261,7 +259,7 @@ export default function DashboardDataTable<T>({
             type='button'
             onClick={() => setCurrentPage(1)}
             disabled={!canGoPrev}
-            className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
+            className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#E5E7EB] bg-[#FAFAF9] text-[#262626] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
             <ChevronsLeft className='h-3.5 w-3.5' />
           </button>
           <button
@@ -295,7 +293,9 @@ export default function DashboardDataTable<T>({
 
           <button
             type='button'
-            onClick={() => setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))}
+            onClick={() =>
+              setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))
+            }
             disabled={!canGoNext}
             className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
             <ChevronRight className='h-3.5 w-3.5' />
