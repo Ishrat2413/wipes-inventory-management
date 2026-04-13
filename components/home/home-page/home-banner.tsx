@@ -1,3 +1,5 @@
+import PageTitle from "@/components/shared/page-title/page-title";
+
 export default function HomeBanner() {
   return (
     <section className='w-full h-screen relative overflow-hidden'>
@@ -9,9 +11,9 @@ export default function HomeBanner() {
           loop
           muted
           playsInline
-          poster='/home/banner.png'
+          poster='/ZilkyWipes/banner.png'
           className='absolute inset-0 w-full h-full object-cover'>
-          <source src='home/banner.mp4' type='video/mp4' />
+          <source src='/ZilkyWipes/hero.mp4' type='video/mp4' />
           Your browser does not support the video tag.
         </video>
 
@@ -20,9 +22,12 @@ export default function HomeBanner() {
       </div>
       {/* Content overlay */}
       <div className='relative z-10 h-full flex items-end justify-start text-start mx-5 md:mx-11.5 py-15'>
-        <p className='font-heading text-[40px] md:text-[70px] lg:text-[120px] font-bold w-full text-white'>
-          A better way to feel clean.
-        </p>
+        <PageTitle
+          align='start'
+          title='A better way to feel clean.'
+          className='w-full'
+          titleClassName='text-white! text-[40px]! md:text-[70px]! lg:text-[120px]! font-bold! leading-[0.95]!'
+        />
       </div>
     </section>
   );
