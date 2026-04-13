@@ -1,16 +1,20 @@
 "use client";
 
 import DashboardDataTable, {
+  type DashboardFilterMenuConfig,
   type DashboardTableColumn,
 } from "@/components/shared/dashboard-data-table";
 import {
+  CalendarDays,
   DollarSign,
   Forward,
   IndentIncrease,
   ListFilter,
+  PackageCheck,
   Package,
   Pencil,
   Trash2,
+  Settings2,
 } from "lucide-react";
 
 type ProductRow = {
@@ -101,11 +105,56 @@ const columns: DashboardTableColumn<ProductRow>[] = [
   },
 ];
 
+const productFilterMenu: DashboardFilterMenuConfig = {
+  searchPlaceholder: "Search...",
+  groups: [
+    {
+      id: "date-range",
+      label: "Date range",
+      icon: CalendarDays,
+      options: [
+        { id: "last-30-days", label: "Last 30 Days" },
+        { id: "last-10-days", label: "Last 10 Days" },
+        { id: "today", label: "Today" },
+        {
+          id: "custom",
+          label: "Custom",
+          icon: Settings2,
+          keepMenuOpen: true,
+        },
+      ],
+    },
+    {
+      id: "stock-status",
+      label: "Stock Status",
+      icon: IndentIncrease,
+      options: [
+        { id: "all", label: "All" },
+        { id: "in-stock", label: "In Stock" },
+        { id: "low-stock", label: "Low Stock" },
+        { id: "out-of-stock", label: "Out of Stock" },
+      ],
+    },
+    {
+      id: "product-type",
+      label: "Product Type",
+      icon: PackageCheck,
+      options: [
+        { id: "all-types", label: "All Types" },
+        { id: "wipes", label: "Wipes" },
+        { id: "towels", label: "Towels" },
+        { id: "cloths", label: "Cloths" },
+      ],
+    },
+  ],
+};
+
 export default function DashboardProductsPage() {
   return (
     <div className='p-3 md:p-4'>
       <DashboardDataTable
         filterAction={{ label: "Filter", icon: ListFilter }}
+        filterMenu={productFilterMenu}
         searchPlaceholder='Search Products, Status'
         data={products}
         columns={columns}
