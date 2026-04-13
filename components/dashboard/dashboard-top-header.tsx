@@ -45,6 +45,13 @@ const headerActions: HeaderAction[] = [
     className:
       "border border-[#E5E7EB] bg-[#FAFAF9] text-[#262626] hover:bg-[#F0F0F0] cursor-pointer",
   },
+  {
+    label: "Integration",
+    href: "/dashboard/integration",
+    icon: Plus,
+    className:
+      "border border-[#E5E7EB] bg-[#FAFAF9] text-[#262626] hover:bg-[#F0F0F0] cursor-pointer",
+  },
 ];
 
 const headerByView: Record<string, HeaderConfig> = {
