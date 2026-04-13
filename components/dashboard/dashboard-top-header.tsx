@@ -34,13 +34,13 @@ type HeaderConfig = {
 const headerActions: HeaderAction[] = [
   {
     label: "View Orders",
-    href: "/dashboard?view=orders",
+    href: "/dashboard/orders",
     icon: Package,
     className: "bg-white text-[#262626] cursor-pointer",
   },
   {
     label: "Add Product",
-    href: "/dashboard?view=add-product",
+    href: "/dashboard/add-product",
     icon: Plus,
     className:
       "border border-[#E5E7EB] bg-[#FAFAF9] text-[#262626] hover:bg-[#F0F0F0] cursor-pointer",
@@ -73,10 +73,10 @@ const headerByView: Record<string, HeaderConfig> = {
     badge: "Order lists",
     badgeIcon: ListOrdered,
   },
-  subscriptions: {
-    label: "Subscriptions",
+  subscription: {
+    label: "Subscription",
     icon: Package,
-    badge: "Subscriptions",
+    badge: "Subscription",
     badgeIcon: ListOrdered,
   },
   customers: {
@@ -90,6 +90,16 @@ const headerByView: Record<string, HeaderConfig> = {
     icon: Package,
     badge: "Feedback",
     badgeIcon: ListOrdered,
+  },
+  settings: {
+    label: "Settings",
+    icon: Network,
+  },
+  "add-product": {
+    label: "Add Product",
+    icon: ListTodo,
+    badge: "Create Product",
+    badgeIcon: ClipboardList,
   },
   integration: {
     label: "Integration",
