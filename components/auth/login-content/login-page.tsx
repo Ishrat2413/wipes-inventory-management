@@ -3,13 +3,13 @@ import LoginForm from "./login-form";
 
 export default function LoginPageContent() {
   return (
-    <section className='w-full h-screen relative overflow-hidden'>
+    <section className='relative w-full overflow-hidden'>
       {/* Hero container */}
       <div className='absolute inset-0 w-full h-full overflow-hidden'>
         {/* Image Background */}
         <Image
           src='/auth/auth.png'
-          alt='Signup'
+          alt='Login'
           fill
           className='absolute inset-0 w-full h-full object-cover'
         />
@@ -18,8 +18,10 @@ export default function LoginPageContent() {
         <div className='absolute inset-0 ' />
       </div>
       {/* Content overlay */}
-      <div className='relative z-10 h-full flex items-center justify-center text-center mx-5 md:mx-11.5 py-15'>
-        <LoginForm />
+      <div className='relative z-10 mx-4 md:mx-11.5 h-svh overflow-y-auto py-6 md:py-10'>
+        <div className='mx-auto flex min-h-full w-full items-center justify-center'>
+          <LoginForm />
+        </div>
       </div>
     </section>
   );
