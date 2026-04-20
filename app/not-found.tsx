@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <section className='bg-white min-h-[100dvh] py-6 px-4 sm:py-8 sm:px-6 flex flex-col'>
+    <section className='bg-white min-h-dvh py-6 px-4 sm:py-8 sm:px-6 flex flex-col'>
       {/* Logo at the top center */}
-      <div className='flex justify-center mb-8 sm:mb-10 flex-shrink-0'>
+      <div className='flex justify-center mb-8 sm:mb-10 shrink-0'>
         <Link href='/' className='inline-block'>
           <Image
             src='/Logo/Logo-02.svg'
