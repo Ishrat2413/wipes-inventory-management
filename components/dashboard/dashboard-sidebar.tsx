@@ -15,6 +15,7 @@ import {
   Star,
   Users,
   X,
+  LibraryBig,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -69,6 +70,12 @@ const otherItems: SidebarItem[] = [
     key: "integration",
     href: "/dashboard/integration",
     icon: Network,
+  },
+  {
+    label: "CRM",
+    key: "crm",
+    href: "/dashboard/crm",
+    icon: LibraryBig,
   },
   {
     label: "Settings",

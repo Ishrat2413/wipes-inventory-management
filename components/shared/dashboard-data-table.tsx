@@ -64,6 +64,8 @@ export type DashboardDataTableProps<T> = {
   searchPredicate?: (row: T, query: string) => boolean;
   pageSizeOptions?: number[];
   defaultPageSize?: number;
+  footerMode?: "default" | "count-only";
+  countOnlyLabel?: string;
   className?: string;
 };
 
@@ -89,6 +91,8 @@ export default function DashboardDataTable<T>({
   searchPredicate,
   pageSizeOptions = [10, 20, 50, 100],
   defaultPageSize,
+  footerMode = "default",
+  countOnlyLabel = "Items",
   className,
 }: DashboardDataTableProps<T>) {
   const [query, setQuery] = useState("");
@@ -509,82 +513,88 @@ export default function DashboardDataTable<T>({
         </table>
       </div>
 
-      <div className='flex flex-col gap-3 border-t border-[#e1e1e1] px-4 py-2.5 md:flex-row md:items-center md:justify-between'>
-        <div className='flex items-center gap-2 text-sm text-[#707070]'>
-          <span>Rows per page</span>
-          <select
-            value={pageSize}
-            onChange={(event) => {
-              setPageSize(Number(event.target.value));
-              setCurrentPage(1);
-            }}
-            className='h-8 rounded-md border border-[#dddddd] bg-[#f8f8f8] px-2 text-sm text-[#4d4d4d] outline-none'>
-            {pageSizeOptions.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-          <span className='text-[#9a9a9a]'>
-            {startItem}-{endItem} of {totalItems}
-          </span>
+      {footerMode === "count-only" ? (
+        <div className='border-t border-[#e1e1e1] px-4 py-2.5 text-sm text-[#9a9a9a]'>
+          {String(totalItems).padStart(2, "0")} {countOnlyLabel}
         </div>
+      ) : (
+        <div className='flex flex-col gap-3 border-t border-[#e1e1e1] px-4 py-2.5 md:flex-row md:items-center md:justify-between'>
+          <div className='flex items-center gap-2 text-sm text-[#707070]'>
+            <span>Rows per page</span>
+            <select
+              value={pageSize}
+              onChange={(event) => {
+                setPageSize(Number(event.target.value));
+                setCurrentPage(1);
+              }}
+              className='h-8 rounded-md border border-[#dddddd] bg-[#f8f8f8] px-2 text-sm text-[#4d4d4d] outline-none'>
+              {pageSizeOptions.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+            <span className='text-[#9a9a9a]'>
+              {startItem}-{endItem} of {totalItems}
+            </span>
+          </div>
 
-        <div className='flex items-center gap-1.5'>
-          <button
-            type='button'
-            onClick={() => setCurrentPage(1)}
-            disabled={!canGoPrev}
-            className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#E5E7EB] bg-[#FAFAF9] text-[#262626] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
-            <ChevronsLeft className='h-3.5 w-3.5' />
-          </button>
-          <button
-            type='button'
-            onClick={() => setCurrentPage(Math.max(1, safeCurrentPage - 1))}
-            disabled={!canGoPrev}
-            className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
-            <ChevronLeft className='h-3.5 w-3.5' />
-          </button>
+          <div className='flex items-center gap-1.5'>
+            <button
+              type='button'
+              onClick={() => setCurrentPage(1)}
+              disabled={!canGoPrev}
+              className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#E5E7EB] bg-[#FAFAF9] text-[#262626] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
+              <ChevronsLeft className='h-3.5 w-3.5' />
+            </button>
+            <button
+              type='button'
+              onClick={() => setCurrentPage(Math.max(1, safeCurrentPage - 1))}
+              disabled={!canGoPrev}
+              className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
+              <ChevronLeft className='h-3.5 w-3.5' />
+            </button>
 
-          {pageButtons.map((value) =>
-            typeof value === "number" ? (
-              <button
-                key={value}
-                type='button'
-                onClick={() => setCurrentPage(value)}
-                className={cn(
-                  "inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-sm transition-colors",
-                  value === safeCurrentPage
-                    ? "border-[#cfcfcf] bg-[#e9e9e9] text-[#3a3a3a]"
-                    : "border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] hover:bg-[#ededed]",
-                )}>
-                {value}
-              </button>
-            ) : (
-              <span key={value} className='px-1 text-[#9e9e9e]'>
-                ...
-              </span>
-            ),
-          )}
+            {pageButtons.map((value) =>
+              typeof value === "number" ? (
+                <button
+                  key={value}
+                  type='button'
+                  onClick={() => setCurrentPage(value)}
+                  className={cn(
+                    "inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-sm transition-colors",
+                    value === safeCurrentPage
+                      ? "border-[#cfcfcf] bg-[#e9e9e9] text-[#3a3a3a]"
+                      : "border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] hover:bg-[#ededed]",
+                  )}>
+                  {value}
+                </button>
+              ) : (
+                <span key={value} className='px-1 text-[#9e9e9e]'>
+                  ...
+                </span>
+              ),
+            )}
 
-          <button
-            type='button'
-            onClick={() =>
-              setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))
-            }
-            disabled={!canGoNext}
-            className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
-            <ChevronRight className='h-3.5 w-3.5' />
-          </button>
-          <button
-            type='button'
-            onClick={() => setCurrentPage(totalPages)}
-            disabled={!canGoNext}
-            className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
-            <ChevronsRight className='h-3.5 w-3.5' />
-          </button>
+            <button
+              type='button'
+              onClick={() =>
+                setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))
+              }
+              disabled={!canGoNext}
+              className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
+              <ChevronRight className='h-3.5 w-3.5' />
+            </button>
+            <button
+              type='button'
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={!canGoNext}
+              className='inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e0e0e0] bg-[#f7f7f7] text-[#6d6d6d] transition-colors hover:bg-[#ededed] disabled:cursor-not-allowed disabled:opacity-45'>
+              <ChevronsRight className='h-3.5 w-3.5' />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
