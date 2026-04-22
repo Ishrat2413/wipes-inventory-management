@@ -104,16 +104,15 @@ export default function CrmNavbar({
                   <li key={item.id}>
                     {item.href ? (
                       <Link href={item.href} className={itemClassName}>
-                        <Icon className="h-4 w-4" />
+                        <Icon className='h-4 w-4' />
                         <span>{item.label}</span>
                       </Link>
                     ) : (
                       <button
-                        type="button"
+                        type='button'
                         onClick={() => setActiveItemId(item.id)}
-                        className={itemClassName}
-                      >
-                        <Icon className="h-4 w-4" />
+                        className={itemClassName}>
+                        <Icon className='h-4 w-4' />
                         <span>{item.label}</span>
                       </button>
                     )}
