@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardSidebar from "@/components/dashboard/dashboard-sidebar";
+import CrmNavbar from "@/components/dashboard/crm/crm-navbar";
 import DashboardTopHeader from "@/components/dashboard/dashboard-top-header";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
   const activeView =
     pathname === "/dashboard" ? "home" : pathname.split("/")[2] ?? "home";
+  const isCrmView = activeView === "crm";
 
   const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
     useState(false);
@@ -52,13 +54,22 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
       ) : null}
 
       <main className='min-w-0 flex-1 bg-white'>
-        <DashboardTopHeader
-          activeView={activeView}
-          onToggleMobileSidebar={() =>
-            setIsMobileSidebarOpen((previous) => !previous)
-          }
-          isMobileSidebarOpen={isMobileSidebarOpen}
-        />
+        {isCrmView ? (
+          <CrmNavbar
+            onToggleMobileSidebar={() =>
+              setIsMobileSidebarOpen((previous) => !previous)
+            }
+            isMobileSidebarOpen={isMobileSidebarOpen}
+          />
+        ) : (
+          <DashboardTopHeader
+            activeView={activeView}
+            onToggleMobileSidebar={() =>
+              setIsMobileSidebarOpen((previous) => !previous)
+            }
+            isMobileSidebarOpen={isMobileSidebarOpen}
+          />
+        )}
         {children}
       </main>
     </div>
