@@ -121,11 +121,17 @@
   --navbar-height: 4.25rem;
 }
 
-/* @media (min-width: 1024px) {
+@media (min-width: 640px) {
   :root {
-    --navbar-height: 6.25rem;
+    --navbar-height: 4.75rem;
   }
-} */
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --navbar-height: 5.5rem;
+  }
+}
 
 @layer base {
   * {

@@ -152,6 +152,7 @@ export default function Navbar() {
         variants: mobileMenuVariants,
       }
     : {};
+
   const isActiveLink = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -173,18 +174,52 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <>
       <motion.header
         {...headerMotionProps}
-        className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter,box-shadow] duration-500 ${
           scrolled || isMobileMenuOpen
-            ? "border-b border-black/10 bg-white/50 backdrop-blur"
+            ? "border-b border-black/10 bg-white/75 shadow-[0_6px_20px_rgba(0,0,0,0.06)] backdrop-blur"
             : "bg-transparent"
         }`}
         style={{ height: "var(--navbar-height)" }}>
-        <nav className='h-full px-4 md:px-6 lg:px-12.5 pt-4 md:pt-6 lg:pt-8'>
-          <div className='grid grid-cols-[auto_1fr_auto] items-center gap-3 lg:gap-6'>
+        <nav className='relative h-full px-4 md:px-6 lg:px-10 xl:px-12.5'>
+          <div className='grid h-full grid-cols-[auto_1fr_auto] items-center gap-3 lg:gap-6'>
             <motion.div
               variants={shouldAnimate ? navItemVariants : undefined}
               initial={shouldAnimate ? "hidden" : false}
@@ -197,7 +232,7 @@ export default function Navbar() {
                   width={190}
                   height={52}
                   priority
-                  className='h-8 md:h-9 lg:h-12 w-auto object-contain'
+                  className='h-7 sm:h-8 md:h-9 lg:h-10 xl:h-12 w-auto object-contain'
                 />
               </Link>
             </motion.div>
@@ -212,7 +247,7 @@ export default function Navbar() {
                   className='inline-flex'>
                   <Link
                     href={item.href}
-                    className={`text-lg lg:text-2xl leading-none text-[#1D3A5F] transition-opacity hover:opacity-80 ${
+                    className={`rounded-md px-1 py-0.5 text-lg xl:text-2xl leading-none text-[#1D3A5F] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30 ${
                       isActiveLink(item.href)
                         ? "font-medium underline decoration-2 underline-offset-8"
                         : "font-normal"
@@ -223,13 +258,13 @@ export default function Navbar() {
               ))}
             </motion.div>
 
-            <div className='flex items-center justify-end gap-2 md:gap-3'>
+            <div className='flex items-center justify-end gap-2 sm:gap-2.5 md:gap-3'>
               {isShopPage ? (
                 <motion.div {...ctaMotionProps}>
                   <button
                     type='button'
                     onClick={() => setIsCartOpen(true)}
-                    className='text-sm md:text-base lg:text-xl font-medium leading-none text-(--text-primary) transition-colors'>
+                    className='rounded-full px-3 py-2 text-sm md:text-base lg:text-lg font-medium leading-none text-(--text-primary) transition-colors hover:text-[#16314f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
                     Cart
                   </button>
                 </motion.div>
@@ -237,7 +272,7 @@ export default function Navbar() {
                 <motion.div {...ctaMotionProps}>
                   <Link
                     href='/shop'
-                    className='text-xs sm:text-sm md:text-base lg:text-xl font-medium leading-none rounded-full bg-white px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 md:py-3 lg:py-4 text-[#1D3A5F] transition-opacity hover:opacity-90'>
+                    className='text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-none rounded-full bg-white px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 md:py-3 text-[#1D3A5F] transition-all hover:bg-[#f7fbff] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
                     Shop ZilkyWipes
                   </Link>
                 </motion.div>
@@ -245,10 +280,12 @@ export default function Navbar() {
 
               <button
                 type='button'
+                id='mobile-menu-trigger'
+                aria-controls='mobile-navigation-menu'
                 aria-label='Toggle navigation menu'
                 aria-expanded={isMobileMenuOpen}
                 onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-                className='inline-flex lg:hidden h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/80 text-[#1D3A5F]'>
+                className='inline-flex lg:hidden h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/85 text-[#1D3A5F] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
                 {isMobileMenuOpen ? (
                   <svg
                     className='h-5 w-5'
@@ -281,9 +318,35 @@ export default function Navbar() {
 
           <AnimatePresence initial={false}>
             {isMobileMenuOpen ? (
+              <motion.button
+                type='button'
+                aria-label='Close mobile navigation menu'
+                onClick={() => setIsMobileMenuOpen(false)}
+                className='fixed inset-0 top-(--navbar-height) z-40 bg-black/10 lg:hidden'
+                initial={shouldAnimate ? { opacity: 0 } : false}
+                animate={shouldAnimate ? { opacity: 1 } : undefined}
+                exit={shouldAnimate ? { opacity: 0 } : undefined}
+                transition={
+                  shouldAnimate
+                    ? {
+                        duration: 0.2,
+                        ease: easing,
+                      }
+                    : undefined
+                }
+              />
+            ) : null}
+          </AnimatePresence>
+
+          <AnimatePresence initial={false}>
+            {isMobileMenuOpen ? (
               <motion.div
                 {...mobileMenuMotionProps}
-                className='mt-3 lg:hidden rounded-2xl border border-black/10 bg-white/95 p-3 shadow-sm backdrop-blur'>
+                id='mobile-navigation-menu'
+                role='dialog'
+                aria-modal='true'
+                aria-labelledby='mobile-menu-trigger'
+                className='absolute left-4 right-4 top-[calc(var(--navbar-height)-0.2rem)] z-50 lg:hidden rounded-2xl border border-black/10 bg-white/98 p-3 shadow-md backdrop-blur'>
                 <div className='flex flex-col'>
                   {navLinks.map((item) => (
                     <motion.div
@@ -292,7 +355,7 @@ export default function Navbar() {
                       <Link
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`rounded-xl px-3 py-2 text-base text-[#1D3A5F] transition-colors hover:bg-black/5 ${
+                        className={`block rounded-xl px-3 py-2.5 text-base text-[#1D3A5F] transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30 ${
                           isActiveLink(item.href)
                             ? "font-bold underline decoration-2 underline-offset-4"
                             : "font-medium"
