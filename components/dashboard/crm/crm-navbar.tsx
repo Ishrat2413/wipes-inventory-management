@@ -70,6 +70,12 @@ const crmNavItems: CrmNavItem[] = [
     icon: CircleHelp,
     href: "/dashboard/crm/help"
   },
+  {
+    id: "footer",
+    label: "Footer",
+    icon: Info,
+    href: "/dashboard/crm/footer"
+  }
 ];
 
 type CrmNavbarProps = {
