@@ -1,4 +1,4 @@
-import { ChevronsLeft, Group, Maximize2, Save } from "lucide-react";
+import { ChevronsRight, Group, Maximize2, Save } from "lucide-react";
 import Image from "next/image";
 
 export default function CRMEditModal({
@@ -43,7 +43,7 @@ export default function CRMEditModal({
             type='button'
             onClick={onClose}
             className='p-1.5 rounded-md hover:bg-gray-100 transition-colors text-gray-400'>
-            <ChevronsLeft className='w-6 h-6' color='#262626' />
+            <ChevronsRight className='w-6 h-6' color='#262626' />
           </button>
           <button
             type='button'
