@@ -16,6 +16,8 @@ import {
   UserRound,
   BadgeCheck,
   Settings2,
+  PencilLine,
+  Forward,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -268,8 +270,24 @@ const columns: DashboardTableColumn<SubscriptionRow>[] = [
     id: "starting-date",
     header: "Starting Date",
     icon: CalendarDays,
-    widthClassName: "w-[16%]",
+    widthClassName: "w-[18%]",
     cell: (row) => <span>{row.startingDate}</span>,
+  },
+  {
+    id: "action",
+    header: "Action",
+    icon: Forward,
+    widthClassName: "w-[16%]",
+    cell: () => (
+      <div className='flex items-center gap-2'>
+        <button
+          type='button'
+          className='inline-flex items-center gap-1 rounded-md border border-[#E5E7EB] bg-[#FAFAF9] px-2.5 py-1 text-sm text-[#262626] transition-colors hover:bg-[#efefef] cursor-pointer'>
+          <PencilLine className='h-3.5 w-3.5' color='#262626' />
+          <span>Edit</span>
+        </button>
+      </div>
+    ),
   },
 ];
 

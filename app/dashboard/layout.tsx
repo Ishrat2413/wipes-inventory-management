@@ -5,6 +5,7 @@ import CrmNavbar from "@/components/dashboard/crm/crm-navbar";
 import DashboardTopHeader from "@/components/dashboard/dashboard-top-header";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import SubscriptionModal from "@/components/dashboard/subscription/subscription-modal";
 
 type DashboardLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -13,12 +14,14 @@ type DashboardLayoutProps = Readonly<{
 function DashboardLayoutContent({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
   const activeView =
-    pathname === "/dashboard" ? "home" : pathname.split("/")[2] ?? "home";
+    pathname === "/dashboard" ? "home" : (pathname.split("/")[2] ?? "home");
   const isCrmView = activeView === "crm";
 
   const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
     useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  // For Subscription Modal
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isMobileSidebarOpen) {
@@ -32,6 +35,16 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
       document.body.style.overflow = originalOverflow;
     };
   }, [isMobileSidebarOpen]);
+
+  // Handler for opening subscription modal
+  const handleAddSubscription = () => {
+    setIsSubscriptionModalOpen(true);
+  };
+
+  // Handler for closing subscription modal
+  const handleCloseSubscriptionModal = () => {
+    setIsSubscriptionModalOpen(false);
+  };
 
   return (
     <div className='min-h-screen bg-[#f5f5f5] xl:flex'>
@@ -68,10 +81,15 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
               setIsMobileSidebarOpen((previous) => !previous)
             }
             isMobileSidebarOpen={isMobileSidebarOpen}
+            onAddSubscription={handleAddSubscription}
           />
         )}
         {children}
       </main>
+      {/* Subscription Modal - only renders when open */}
+      {isSubscriptionModalOpen && (
+        <SubscriptionModal onClose={handleCloseSubscriptionModal} />
+      )}
     </div>
   );
 }
