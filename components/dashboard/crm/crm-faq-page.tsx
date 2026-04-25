@@ -6,14 +6,21 @@ import {
   Calendar,
   Forward,
   ListFilter,
-  MoveRight,
   Star,
   UserRound,
 } from "lucide-react";
 import { useState } from "react";
 import CRMEditModal from "./shared/crm-edit-modal";
 
-const crmProductRows = [
+type CrmFAQRow = {
+  id: string;
+  section: string;
+  topic: string;
+  title: string;
+  subtitle: string;
+};
+
+const crmProductRows: CrmFAQRow[] = [
   {
     id: "0",
     section: "Page Header",
@@ -89,9 +96,9 @@ const crmProductRows = [
 
 export default function CrmFAQPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState<CrmFAQRow | null>(null);
 
-  const handleEdit = (row) => {
+  const handleEdit = (row: CrmFAQRow) => {
     setSelectedRow(row);
     setIsModalOpen(true);
   };
@@ -102,24 +109,23 @@ export default function CrmFAQPage() {
       header: "Section",
       icon: UserRound,
       widthClassName: "w-[15%]",
-      cell: (row) => <span>{row.section}</span>,
+      cell: (row: CrmFAQRow) => <span>{row.section}</span>,
     },
     {
       id: "topic",
       header: "Topic",
       icon: ListFilter,
       widthClassName: "w-[14%]",
-      cell: (row) => <span>{row.topic}</span>,
+      cell: (row: CrmFAQRow) => <span>{row.topic}</span>,
     },
     {
       id: "title",
       header: "Title",
       icon: Calendar,
       widthClassName: "w-[24%]",
-      cell: (row) => (
+      cell: (row: CrmFAQRow) => (
         <span className="flex items-center gap-1 max-w-full truncate text-[#2f2f2f]">
           <span className="truncate">{row.title}</span>
-          {row.hasMoveRightIcon && <MoveRight className="h-4 w-4 shrink-0" />}
         </span>
       ),
     },
@@ -128,7 +134,7 @@ export default function CrmFAQPage() {
       header: "Subtitle",
       icon: Star,
       widthClassName: "w-[35%]",
-      cell: (row) => (
+      cell: (row: CrmFAQRow) => (
         <span className="block max-w-full truncate text-[#2f2f2f]">
           {row.subtitle}
         </span>
@@ -139,7 +145,7 @@ export default function CrmFAQPage() {
       header: "Action",
       icon: Forward,
       widthClassName: "w-[14%]",
-      cell: (row) => (
+      cell: (row: CrmFAQRow) => (
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -151,7 +157,6 @@ export default function CrmFAQPage() {
           </button>
           <button
             type="button"
-            onClick={() => handleDelete(row)}
             className="inline-flex items-center gap-1 rounded-md border border-[#E5E7EB] bg-[#FAFAF9] px-2.5 py-1 text-sm text-[#262626] transition-colors hover:bg-[#efefef] cursor-pointer"
           >
             <span>Delete</span>
@@ -183,7 +188,7 @@ export default function CrmFAQPage() {
         section={selectedRow?.section || ""}
         title={selectedRow?.title || ""}
         subtitle={selectedRow?.subtitle || ""}
-        imagePaths={selectedRow?.imagePaths || []}
+        imagePaths={[]}
       />
     </section>
   );

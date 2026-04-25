@@ -64,7 +64,12 @@ const crmNavItems: CrmNavItem[] = [
   { id: "subscription", label: "Subscription", icon: Users, href: "/dashboard/crm/subscription" },
   { id: "benefits", label: "Benifits", icon: Sparkles, href: "/dashboard/crm/benefits" },
   { id: "about", label: "About", icon: Info, href: "/dashboard/crm/about" },
-  { id: "help", label: "Help", icon: CircleHelp, href: "/dashboard/crm/help" },
+  {
+    id: "help",
+    label: "Help",
+    icon: CircleHelp,
+    href: "/dashboard/crm/help"
+  },
 ];
 
 type CrmNavbarProps = {
