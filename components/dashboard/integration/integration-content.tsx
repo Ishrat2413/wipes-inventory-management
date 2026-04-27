@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Plus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 const TITLE = "Connect Apps With Your Dashboard";
@@ -74,7 +75,14 @@ export default function IntegrationContent() {
               </div>
 
               {/* Right: Button or Checkmark */}
-              {step.connected ? (
+              {step.id === 1 ? (
+                <Link
+                  href='/dashboard/integration/facebook'
+                  className='flex items-center gap-1.5 px-4 py-2 rounded-md border bg-[#FAFAF9] border-[#E5E7EB] text-sm text-[#262626] hover:bg-gray-100 transition-colors shrink-0 cursor-pointer'>
+                  <Plus size={16} color='#262626' />
+                  Connect
+                </Link>
+              ) : step.connected ? (
                 <div className='w-10 h-10 rounded-full bg-[#DCFCE7] flex items-center justify-center shrink-0'>
                   <Check size={16} color='#2F7F52' />
                 </div>
