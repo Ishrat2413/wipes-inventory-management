@@ -1,99 +1,79 @@
 "use client";
 
-import { Check, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
 const TITLE = "Connect Apps With Your Dashboard";
-const SUBTITLE =
-  "Complete these simple steps to get your studio up and running";
+const SUBTITLE = "Complete these simple steps to get your studio up and running";
 
+// Added 'href' property to each step configuration
 const STEPS = [
   {
     id: 1,
     title: "Connect to Facebook & Instagram",
     description: "Take the first step to get hired and viewed by companies",
-    connected: false,
+    href: "/dashboard/integration/facebook",
   },
   {
     id: 2,
     title: "Connect to TikTok",
     description: "Take the first step to get hired and viewed by companies",
-    connected: false,
+    href: "/dashboard/integration/tiktok",
   },
   {
     id: 3,
     title: "Connect to Google Ad",
     description: "Take the first step to get hired and viewed by companies",
-    connected: false,
+    href: "/dashboard/integration/google",
   },
   {
     id: 4,
     title: "Connect to Amazon",
     description: "Take the first step to get hired and viewed by companies",
-    connected: false,
+    href: "/dashboard/integration/amazon",
   },
 ];
 
 export default function IntegrationContent() {
-  const [steps, setSteps] = useState(STEPS);
-
-  const handleConnect = (id: number) => {
-    setSteps((prev) =>
-      prev.map((step) =>
-        step.id === id ? { ...step, connected: true } : step,
-      ),
-    );
-  };
-
   return (
-    <section className='min-h-screen bg-white px-4 '>
-      <div className='sm:mx-5 md:mx-10 lg:mx-20 xl:mx-50 2xl:mx-80 mx-auto mt-30'>
+    <section className="min-h-screen bg-white px-4">
+      <div className="mx-auto mt-20 w-full px-2 sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
         {/* Header */}
-        <div className='text-center mb-12'>
-          <h1 className='text-2xl font-medium text-gray-900 mb-1'>{TITLE}</h1>
-          <p className='text-sm text-[#A1A1AA] text-extralight'>{SUBTITLE}</p>
+        <div className="mb-12 text-center">
+          <h1 className="mb-1 text-2xl font-medium text-gray-900">{TITLE}</h1>
+          <p className="text-extralight text-sm text-[#A1A1AA]">{SUBTITLE}</p>
         </div>
 
         {/* Steps */}
-        <div className='flex flex-col gap-4'>
-          {steps.map((step) => (
+        <div className="flex flex-col gap-2">
+          {STEPS.map((step) => (
             <div
               key={step.id}
-              className='flex items-center justify-between py-4'>
+              className="flex flex-col items-center justify-between gap-4 py-4 sm:flex-row sm:gap-0"
+            >
               {/* Left: Number + Text */}
-              <div className='flex items-center gap-4'>
-                <div className='w-9 h-9 rounded-full bg-[#F5F5F4] flex items-center justify-center text-base text-[#262626] font-medium shrink-0'>
+              <div className="flex w-full items-center gap-4 sm:w-auto">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F5F5F4] text-base font-medium text-[#262626]">
                   {step.id}
                 </div>
                 <div>
-                  <p className='text-base text-[#52525B]'>{step.title}</p>
-                  <p className='text-xs text-[#A1A1AA] mt-0.5'>
+                  <p className="text-base font-medium text-[#52525B] sm:font-normal">
+                    {step.title}
+                  </p>
+                  <p className="mt-0.5 text-xs text-[#A1A1AA]">
                     {step.description}
                   </p>
                 </div>
               </div>
 
-              {/* Right: Button or Checkmark */}
-              {step.id === 1 ? (
-                <Link
-                  href='/dashboard/integration/facebook'
-                  className='flex items-center gap-1.5 px-4 py-2 rounded-md border bg-[#FAFAF9] border-[#E5E7EB] text-sm text-[#262626] hover:bg-gray-100 transition-colors shrink-0 cursor-pointer'>
-                  <Plus size={16} color='#262626' />
-                  Connect
-                </Link>
-              ) : step.connected ? (
-                <div className='w-10 h-10 rounded-full bg-[#DCFCE7] flex items-center justify-center shrink-0'>
-                  <Check size={16} color='#2F7F52' />
-                </div>
-              ) : (
-                <button
-                  onClick={() => handleConnect(step.id)}
-                  className='flex items-center gap-1.5 px-4 py-2 rounded-md border bg-[#FAFAF9] border-[#E5E7EB] text-sm text-[#262626] hover:bg-gray-100 transition-colors shrink-0 cursor-pointer'>
-                  <Plus size={16} color='#262626' />
-                  Connect
-                </button>
-              )}
+              {/* Right: Connect Link */}
+              <Link
+                href={step.href}
+                className="flex w-full items-center justify-center gap-1.5 rounded-md border border-[#E5E7EB] bg-[#FAFAF9] px-4 py-2 text-sm text-[#262626] transition-colors hover:bg-gray-100 sm:w-auto sm:shrink-0"
+              >
+                <Plus size={16} />
+                Connect
+              </Link>
             </div>
           ))}
         </div>
