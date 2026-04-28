@@ -20,11 +20,32 @@ export default function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<{
+    name: string;
+    email: string;
+    role: string;
+  } | null>(null);
+
   const shouldReduceMotion = useReducedMotion();
   const shouldAnimate = !shouldReduceMotion;
   const pathname = usePathname();
-  const isShopPage = pathname === "/shop";
   const easing = [0.22, 1, 0.36, 1] as const;
+
+  useEffect(() => {
+    const checkUser = () => {
+      const storedUser = localStorage.getItem("zilky_user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkUser();
+    // Listen for storage changes (for multiple tabs)
+    window.addEventListener("storage", checkUser);
+    return () => window.removeEventListener("storage", checkUser);
+  }, [pathname]); // Re-check on navigation
 
   const headerVariants = {
     hidden: {
@@ -259,14 +280,21 @@ export default function Navbar() {
             </motion.div>
 
             <div className='flex items-center justify-end gap-2 sm:gap-2.5 md:gap-3'>
-              {isShopPage ? (
+              {!user ? (
                 <motion.div {...ctaMotionProps}>
-                  <button
-                    type='button'
-                    onClick={() => setIsCartOpen(true)}
-                    className='rounded-full px-3 py-2 text-sm md:text-base lg:text-lg font-medium leading-none text-(--text-primary) transition-colors hover:text-[#16314f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
-                    Cart
-                  </button>
+                  <Link
+                    href='/login'
+                    className='text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-none rounded-full bg-white px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 md:py-3 text-[#1D3A5F] transition-all hover:bg-[#f7fbff] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
+                    Login
+                  </Link>
+                </motion.div>
+              ) : user.role === "admin" ? (
+                <motion.div {...ctaMotionProps}>
+                  <Link
+                    href='/dashboard'
+                    className='text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-none rounded-full bg-white px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 md:py-3 text-[#1D3A5F] transition-all hover:bg-[#f7fbff] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
+                    Dashboard
+                  </Link>
                 </motion.div>
               ) : (
                 <motion.div {...ctaMotionProps}>

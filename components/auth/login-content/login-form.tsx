@@ -3,19 +3,65 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+const DEMO_USERS = [
+  {
+    email: "user@gmail.com",
+    password: "admin@123",
+    name: "John Doe",
+    role: "user",
+  },
+  {
+    email: "admin@gmail.com",
+    password: "admin@123",
+    name: "Admin User",
+    role: "admin",
+  },
+];
 
 export default function LoginForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Simulate API delay
+    setTimeout(() => {
+      const user = DEMO_USERS.find(
+        (u) => u.email === formData.email && u.password === formData.password,
+      );
+
+      if (user) {
+        const userData = {
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+        localStorage.setItem("zilky_user", JSON.stringify(userData));
+        toast.success(`Welcome back, ${user.name}!`);
+
+        if (user.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
+      } else {
+        toast.error("Invalid email or password");
+      }
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -44,11 +90,15 @@ export default function LoginForm() {
             </h1>
             <p className='text-sm text-(--shop-pagination-text)'>
               Enter your email and password to access your account.
+              <br />
+              <span className='text-xs opacity-70'>
+                Demo: user@gmail.com / admin@123 | admin@gmail.com / admin@123
+              </span>
             </p>
           </div>
 
           {/* Form Fields */}
-          <div className='space-y-3 '>
+          <form onSubmit={handleSubmit} className='space-y-3 '>
             {/* Email */}
             <div>
               <label className='block text-sm text-(--text-primary) mb-1.5'>
@@ -57,9 +107,10 @@ export default function LoginForm() {
               <input
                 type='email'
                 name='email'
+                required
                 value={formData.email}
                 onChange={handleChange}
-                placeholder='pedro@duarte.com'
+                placeholder='user@gmail.com'
                 className='w-full px-3 py-2.5 sm:py-3 border border-[#E7E5E4] rounded-md text-sm text-gray-400 placeholder-[#979191] focus:outline-none focus:ring-1 focus:ring-[#1e2d4a] focus:border-[#1e2d4a] transition-colors'
               />
             </div>
@@ -79,20 +130,22 @@ export default function LoginForm() {
               <input
                 type='password'
                 name='password'
+                required
                 value={formData.password}
                 onChange={handleChange}
                 placeholder='Enter your password'
                 className='w-full px-3 py-2.5 sm:py-3 border border-[#E7E5E4] rounded-md text-sm text-gray-400 placeholder-[#979191] focus:outline-none focus:ring-1 focus:ring-[#1e2d4a] focus:border-[#1e2d4a] transition-colors'
               />
             </div>
-          </div>
 
-          {/* Sign Up Button */}
-          <button
-            onClick={handleSubmit}
-            className='w-full mt-7 sm:mt-8 py-3.5 sm:py-4 bg-(--cart-panel-bg) text-white font-semibold rounded-full hover:bg-[#16253d] active:scale-[0.98] transition-all duration-150 text-base'>
-            Login
-          </button>
+            {/* Login Button */}
+            <button
+              type='submit'
+              disabled={isLoading}
+              className='w-full mt-7 sm:mt-8 py-3.5 sm:py-4 bg-(--cart-panel-bg) text-white font-semibold rounded-full hover:bg-[#16253d] active:scale-[0.98] transition-all duration-150 text-base disabled:opacity-50 disabled:cursor-not-allowed'>
+              {isLoading ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
           {/* Sign In Link */}
           <p className='text-center text-sm text-[#262626] mt-5 sm:mt-6'>
