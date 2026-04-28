@@ -4,8 +4,10 @@ import CartDrawer from "@/components/shared/cart/cart-drawer";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { ChevronDown } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,8 +19,10 @@ const navLinks = [
 ] as const;
 
 export default function Navbar() {
+  const router = useRouter();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<{
     name: string;
@@ -46,6 +50,27 @@ export default function Navbar() {
     window.addEventListener("storage", checkUser);
     return () => window.removeEventListener("storage", checkUser);
   }, [pathname]); // Re-check on navigation
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isProfileDropdownOpen) {
+        const target = e.target as HTMLElement;
+        if (!target.closest("#profile-dropdown-container")) {
+          setIsProfileDropdownOpen(false);
+        }
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isProfileDropdownOpen]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("zilky_user");
+    setUser(null);
+    setIsProfileDropdownOpen(false);
+    toast.info("Logged out successfully");
+    router.push("/");
+  };
 
   const headerVariants = {
     hidden: {
@@ -297,12 +322,63 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ) : (
-                <motion.div {...ctaMotionProps}>
-                  <Link
-                    href='/shop'
-                    className='text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-none rounded-full bg-white px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 md:py-3 text-[#1D3A5F] transition-all hover:bg-[#f7fbff] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
-                    Shop ZilkyWipes
-                  </Link>
+                <motion.div {...ctaMotionProps} className='relative' id='profile-dropdown-container'>
+                  <button
+                    type='button'
+                    onClick={() => setIsProfileDropdownOpen((prev) => !prev)}
+                    className='flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-none rounded-sm bg-white px-3 sm:px-4 md:px-4 lg:px-6 py-2 sm:py-2.5 md:py-3 text-[#1D3A5F] transition-all hover:bg-[#f7fbff] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
+                    Profile <span><ChevronDown /></span>
+                  </button>
+
+                  <AnimatePresence>
+                    {isProfileDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className='absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 shadow-lg z-50 rounded-lg overflow-hidden'
+                      >
+                        <div className='flex flex-col py-1'>
+                          <Link
+                            href='/account/profile'
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
+                          >
+                            Profile
+                          </Link>
+                          <Link
+                            href='/account/track-order'
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
+                          >
+                            Track Order
+                          </Link>
+                          <Link
+                            href='/account/settings'
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
+                          >
+                            Settings
+                          </Link>
+                          <Link
+                            href='/account/help'
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
+                          >
+                            Help
+                          </Link>
+                          <button
+                            type='button'
+                            onClick={handleLogout}
+                            className='w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100'
+                          >
+                            Logout
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               )}
 

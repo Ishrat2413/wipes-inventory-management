@@ -36,7 +36,6 @@ export default function Section2() {
             loop
             muted
             playsInline
-            poster='/home/banner.png'
             className='w-full h-auto aspect-37/45 rounded-[36px] sm:rounded-[72px] lg:rounded-[120px] object-cover'>
             <source src='/home/section2.mp4' type='video/mp4' />
             Your browser does not support the video tag.
