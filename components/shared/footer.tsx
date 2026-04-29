@@ -10,7 +10,7 @@ const pagesLinks = [
   { label: "Shop", href: "/shop" },
   { label: "About Us", href: "/about" },
   { label: "Benefits", href: "/benefits" },
-  { label: "Contact", href: "/contact" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 const linkLinks = [
@@ -103,12 +103,10 @@ const Footer = () => {
             subtitleClassName='mt-2 px-2 text-base! md:text-2xl text-white!'
           />
           <div className='flex flex-col md:flex-row justify-start gap-6 mt-8 mb-20'>
-            <Button
-              className='bg-white px-6 py-4 text-base md:text-xl rounded-full text-(--text-primary) shadow-sm hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-(--text-primary)/40 transition-all duration-300 cursor-pointer font-semibold'>
+            <Button className='bg-white px-6 py-4 text-base md:text-xl rounded-full text-(--text-primary) shadow-sm hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-(--text-primary)/40 transition-all duration-300 cursor-pointer font-semibold'>
               Shop ZilkyWipes
             </Button>
-            <Button
-              className='bg-transparent border-2 border-white text-white px-6 py-4 text-base md:text-xl rounded-full shadow-sm hover:bg-white hover:text-(--text-primary) hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-300'>
+            <Button className='bg-transparent border-2 border-white text-white px-6 py-4 text-base md:text-xl rounded-full shadow-sm hover:bg-white hover:text-(--text-primary) hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-300'>
               Subscribe & Save
             </Button>
           </div>
@@ -222,7 +220,7 @@ const Footer = () => {
           </div>
 
           {/* GET NOTIFIED */}
-          <div className="col-span-2 lg:col-span-1">
+          <div className='col-span-2 lg:col-span-1'>
             <h4 className='text-3xl font-semibold text-white mb-4 font-heading'>
               Get Notified
             </h4>

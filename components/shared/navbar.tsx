@@ -322,12 +322,18 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ) : (
-                <motion.div {...ctaMotionProps} className='relative' id='profile-dropdown-container'>
+                <motion.div
+                  {...ctaMotionProps}
+                  className='relative'
+                  id='profile-dropdown-container'>
                   <button
                     type='button'
                     onClick={() => setIsProfileDropdownOpen((prev) => !prev)}
                     className='flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-none rounded-sm bg-white px-3 sm:px-4 md:px-4 lg:px-6 py-2 sm:py-2.5 md:py-3 text-[#1D3A5F] transition-all hover:bg-[#f7fbff] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D3A5F]/30'>
-                    Profile <span><ChevronDown /></span>
+                    Profile{" "}
+                    <span>
+                      <ChevronDown />
+                    </span>
                   </button>
 
                   <AnimatePresence>
@@ -337,42 +343,36 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className='absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 shadow-lg z-50 rounded-lg overflow-hidden'
-                      >
+                        className='absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 shadow-lg z-50 rounded-lg overflow-hidden'>
                         <div className='flex flex-col py-1'>
                           <Link
                             href='/account/profile'
                             onClick={() => setIsProfileDropdownOpen(false)}
-                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
-                          >
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'>
                             Profile
                           </Link>
                           <Link
                             href='/account/track-order'
                             onClick={() => setIsProfileDropdownOpen(false)}
-                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
-                          >
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'>
                             Track Order
                           </Link>
                           <Link
                             href='/account/settings'
                             onClick={() => setIsProfileDropdownOpen(false)}
-                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
-                          >
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'>
                             Settings
                           </Link>
                           <Link
                             href='/account/help'
                             onClick={() => setIsProfileDropdownOpen(false)}
-                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
-                          >
+                            className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'>
                             Help
                           </Link>
                           <button
                             type='button'
                             onClick={handleLogout}
-                            className='w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100'
-                          >
+                            className='w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100'>
                             Logout
                           </button>
                         </div>
