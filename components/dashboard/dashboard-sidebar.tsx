@@ -17,11 +17,13 @@ import {
   X,
   LibraryBig,
   FileChartLine,
+  LogOut,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ComponentType } from "react";
+import { toast } from "sonner";
 
 type SidebarItem = {
   label: string;
@@ -63,6 +65,12 @@ const operationItems: SidebarItem[] = [
     href: "/dashboard/feedback",
     icon: Star,
   },
+  {
+    label: "Analytics",
+    key: "analytics",
+    href: "/dashboard/analytics",
+    icon: FileChartLine,
+  },
 ];
 
 const otherItems: SidebarItem[] = [
@@ -77,12 +85,6 @@ const otherItems: SidebarItem[] = [
     key: "crm",
     href: "/dashboard/crm",
     icon: LibraryBig,
-  },
-  {
-    label: "Analytics",
-    key: "analytics",
-    href: "/dashboard/analytics",
-    icon: FileChartLine,
   },
   {
     label: "Settings",
@@ -139,9 +141,16 @@ export default function DashboardSidebar({
   onToggleCollapse,
   onCloseMobile,
 }: DashboardSidebarProps) {
+  const router = useRouter();
   const pathname = usePathname();
   const activeView =
     pathname === "/dashboard" ? "home" : (pathname.split("/")[2] ?? "home");
+
+  const handleLogout = () => {
+    localStorage.removeItem("zilky_user");
+    toast.info("Logged out successfully");
+    router.push("/");
+  };
 
   return (
     <aside
@@ -278,6 +287,24 @@ export default function DashboardSidebar({
             />
           ))}
         </div>
+      </div>
+
+      <div className='mt-auto pt-5'>
+        <button
+          type='button'
+          onClick={handleLogout}
+          className={cn(
+            "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-lg text-red-600 transition-colors hover:bg-red-50",
+            isCollapsed ? "xl:justify-center xl:px-0" : "",
+          )}>
+          <LogOut
+            className={cn(
+              "h-4 w-4 shrink-0",
+              isCollapsed ? "xl:h-5 xl:w-5" : "",
+            )}
+          />
+          <span className={cn(isCollapsed ? "xl:hidden" : "")}>Logout</span>
+        </button>
       </div>
     </aside>
   );
